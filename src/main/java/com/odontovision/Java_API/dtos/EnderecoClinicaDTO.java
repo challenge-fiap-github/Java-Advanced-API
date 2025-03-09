@@ -1,8 +1,12 @@
 package com.odontovision.Java_API.dtos;
 
+import com.odontovision.Java_API.controllers.EnderecoClinicaController;
+import com.odontovision.Java_API.entities.EnderecoClinica;
 import jakarta.validation.constraints.Size;
+import org.springframework.hateoas.RepresentationModel;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
-public class EnderecoClinicaDTO {
+public class EnderecoClinicaDTO extends RepresentationModel<EnderecoClinicaDTO> {
 
     private Long id;
     private Long dentistaId;
@@ -27,78 +31,42 @@ public class EnderecoClinicaDTO {
 
     public EnderecoClinicaDTO() {}
 
-    public EnderecoClinicaDTO(Long id, Long dentistaId, String logradouro, String numero, String cidade, String estado, String cep, String complemento) {
-        this.id = id;
-        this.dentistaId = dentistaId;
-        this.logradouro = logradouro;
-        this.numero = numero;
-        this.cidade = cidade;
-        this.estado = estado;
-        this.cep = cep;
-        this.complemento = complemento;
+    public EnderecoClinicaDTO(EnderecoClinica enderecoClinica) {
+        this.id = enderecoClinica.getId();
+        this.dentistaId = enderecoClinica.getDentista().getId();
+        this.logradouro = enderecoClinica.getLogradouro();
+        this.numero = enderecoClinica.getNumero();
+        this.cidade = enderecoClinica.getCidade();
+        this.estado = enderecoClinica.getEstado();
+        this.cep = enderecoClinica.getCep();
+        this.complemento = enderecoClinica.getComplemento();
+
+        // Adicionando links HATEOAS
+        add(linkTo(methodOn(EnderecoClinicaController.class).buscarEnderecoClinicaPorId(enderecoClinica.getId())).withSelfRel());
+        add(linkTo(methodOn(EnderecoClinicaController.class).listarEnderecosClinica()).withRel("enderecos-clinica"));
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getDentistaId() { return dentistaId; }
+    public void setDentistaId(Long dentistaId) { this.dentistaId = dentistaId; }
 
-    public Long getDentistaId() {
-        return dentistaId;
-    }
+    public String getLogradouro() { return logradouro; }
+    public void setLogradouro(String logradouro) { this.logradouro = logradouro; }
 
-    public void setDentistaId(Long dentistaId) {
-        this.dentistaId = dentistaId;
-    }
+    public String getNumero() { return numero; }
+    public void setNumero(String numero) { this.numero = numero; }
 
-    public @Size(max = 150) String getLogradouro() {
-        return logradouro;
-    }
+    public String getCidade() { return cidade; }
+    public void setCidade(String cidade) { this.cidade = cidade; }
 
-    public void setLogradouro(@Size(max = 150) String logradouro) {
-        this.logradouro = logradouro;
-    }
+    public String getEstado() { return estado; }
+    public void setEstado(String estado) { this.estado = estado; }
 
-    public @Size(max = 10) String getNumero() {
-        return numero;
-    }
+    public String getCep() { return cep; }
+    public void setCep(String cep) { this.cep = cep; }
 
-    public void setNumero(@Size(max = 10) String numero) {
-        this.numero = numero;
-    }
-
-    public @Size(max = 100) String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(@Size(max = 100) String cidade) {
-        this.cidade = cidade;
-    }
-
-    public @Size(max = 50) String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(@Size(max = 50) String estado) {
-        this.estado = estado;
-    }
-
-    public @Size(max = 10) String getCep() {
-        return cep;
-    }
-
-    public void setCep(@Size(max = 10) String cep) {
-        this.cep = cep;
-    }
-
-    public @Size(max = 100) String getComplemento() {
-        return complemento;
-    }
-
-    public void setComplemento(@Size(max = 100) String complemento) {
-        this.complemento = complemento;
-    }
+    public String getComplemento() { return complemento; }
+    public void setComplemento(String complemento) { this.complemento = complemento; }
 }

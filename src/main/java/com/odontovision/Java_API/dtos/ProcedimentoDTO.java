@@ -1,10 +1,14 @@
 package com.odontovision.Java_API.dtos;
 
+import com.odontovision.Java_API.controllers.ProcedimentoController;
+import com.odontovision.Java_API.entities.Procedimento;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.springframework.hateoas.RepresentationModel;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
-public class ProcedimentoDTO {
+public class ProcedimentoDTO extends RepresentationModel<ProcedimentoDTO> {
 
     private Long id;
 
@@ -20,42 +24,26 @@ public class ProcedimentoDTO {
 
     public ProcedimentoDTO() {}
 
-    public ProcedimentoDTO(Long id, String nomeProcedimento, String descricao, Double custo) {
-        this.id = id;
-        this.nomeProcedimento = nomeProcedimento;
-        this.descricao = descricao;
-        this.custo = custo;
+    public ProcedimentoDTO(Procedimento procedimento) {
+        this.id = procedimento.getId();
+        this.nomeProcedimento = procedimento.getNomeProcedimento();
+        this.descricao = procedimento.getDescricao();
+        this.custo = procedimento.getCusto();
+
+        // Adicionando links HATEOAS
+        add(linkTo(methodOn(ProcedimentoController.class).buscarProcedimentoPorId(procedimento.getId())).withSelfRel());
+        add(linkTo(methodOn(ProcedimentoController.class).listarProcedimentos()).withRel("procedimentos"));
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getNomeProcedimento() { return nomeProcedimento; }
+    public void setNomeProcedimento(String nomeProcedimento) { this.nomeProcedimento = nomeProcedimento; }
 
-    public @NotBlank @Size(max = 100) String getNomeProcedimento() {
-        return nomeProcedimento;
-    }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
 
-    public void setNomeProcedimento(@NotBlank @Size(max = 100) String nomeProcedimento) {
-        this.nomeProcedimento = nomeProcedimento;
-    }
-
-    public @Size(max = 255) String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(@Size(max = 255) String descricao) {
-        this.descricao = descricao;
-    }
-
-    public @DecimalMin("0.00") Double getCusto() {
-        return custo;
-    }
-
-    public void setCusto(@DecimalMin("0.00") Double custo) {
-        this.custo = custo;
-    }
+    public Double getCusto() { return custo; }
+    public void setCusto(Double custo) { this.custo = custo; }
 }

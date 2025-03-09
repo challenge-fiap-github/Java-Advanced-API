@@ -7,13 +7,16 @@ import java.util.Date;
 @Table(name = "usuario_nivel")
 public class UsuarioNivel {
 
-    @Id
+    @EmbeddedId
+    private UsuarioNivelId id;
+
     @ManyToOne
+    @MapsId("usuario") // Mapeia a chave primária composta
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-    @Id
     @ManyToOne
+    @MapsId("nivel") // Mapeia a chave primária composta
     @JoinColumn(name = "nivel_id", nullable = false)
     private Nivel nivel;
 
@@ -26,6 +29,7 @@ public class UsuarioNivel {
     public UsuarioNivel() {}
 
     public UsuarioNivel(Usuario usuario, Nivel nivel, Integer pontosAtuais, Date dataUltimaAtualizacao) {
+        this.id = new UsuarioNivelId(usuario.getId(), nivel.getId());
         this.usuario = usuario;
         this.nivel = nivel;
         this.pontosAtuais = pontosAtuais;
@@ -33,18 +37,20 @@ public class UsuarioNivel {
     }
 
     public Usuario getUsuario() { return usuario; }
-
-    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+        this.id.setUsuario(usuario.getId());
+    }
 
     public Nivel getNivel() { return nivel; }
-
-    public void setNivel(Nivel nivel) { this.nivel = nivel; }
+    public void setNivel(Nivel nivel) {
+        this.nivel = nivel;
+        this.id.setNivel(nivel.getId());
+    }
 
     public Integer getPontosAtuais() { return pontosAtuais; }
-
     public void setPontosAtuais(Integer pontosAtuais) { this.pontosAtuais = pontosAtuais; }
 
     public Date getDataUltimaAtualizacao() { return dataUltimaAtualizacao; }
-
     public void setDataUltimaAtualizacao(Date dataUltimaAtualizacao) { this.dataUltimaAtualizacao = dataUltimaAtualizacao; }
 }

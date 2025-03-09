@@ -3,11 +3,14 @@ package com.odontovision.Java_API.services;
 import com.odontovision.Java_API.entities.EnderecoUsuario;
 import com.odontovision.Java_API.repositories.EnderecoUsuarioRepository;
 import com.odontovision.Java_API.dtos.EnderecoUsuarioDTO;
+import com.odontovision.Java_API.repositories.UsuarioRepository;
+import com.odontovision.Java_API.entities.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EnderecoUsuarioService {
@@ -15,20 +18,26 @@ public class EnderecoUsuarioService {
     @Autowired
     private EnderecoUsuarioRepository enderecoUsuarioRepository;
 
-    public EnderecoUsuario salvarEnderecoUsuario(EnderecoUsuarioDTO dto) {
-        EnderecoUsuario endereco = new EnderecoUsuario();
-        endereco.setUsuarioId(dto.getUsuarioId());
-        endereco.setLogradouro(dto.getLogradouro());
-        endereco.setNumero(dto.getNumero());
-        endereco.setCidade(dto.getCidade());
-        endereco.setEstado(dto.getEstado());
-        endereco.setCep(dto.getCep());
-        endereco.setComplemento(dto.getComplemento());
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-        return enderecoUsuarioRepository.save(endereco);
+    public EnderecoUsuario salvarEnderecoUsuario(EnderecoUsuarioDTO dto) {
+        Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        EnderecoUsuario enderecoUsuario = new EnderecoUsuario();
+        enderecoUsuario.setUsuario(usuario);
+        enderecoUsuario.setLogradouro(dto.getLogradouro());
+        enderecoUsuario.setNumero(dto.getNumero());
+        enderecoUsuario.setCidade(dto.getCidade());
+        enderecoUsuario.setEstado(dto.getEstado());
+        enderecoUsuario.setCep(dto.getCep());
+        enderecoUsuario.setComplemento(dto.getComplemento());
+
+        return enderecoUsuarioRepository.save(enderecoUsuario);
     }
 
-    public List<EnderecoUsuario> listarEnderecos() {
+    public List<EnderecoUsuario> listarEnderecosUsuario() {
         return enderecoUsuarioRepository.findAll();
     }
 
@@ -36,7 +45,10 @@ public class EnderecoUsuarioService {
         return enderecoUsuarioRepository.findById(id);
     }
 
-    public void excluirEndereco(Long id) {
+    public void excluirEnderecoUsuario(Long id) {
+        if (!enderecoUsuarioRepository.existsById(id)) {
+            throw new RuntimeException("Endereço de usuário não encontrado");
+        }
         enderecoUsuarioRepository.deleteById(id);
     }
 }

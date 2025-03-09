@@ -1,8 +1,13 @@
 package com.odontovision.Java_API.dtos;
 
+import com.odontovision.Java_API.controllers.UsuarioNivelController;
+import com.odontovision.Java_API.entities.UsuarioNivel;
+import org.springframework.hateoas.RepresentationModel;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 import java.util.Date;
 
-public class UsuarioNivelDTO {
+public class UsuarioNivelDTO extends RepresentationModel<UsuarioNivelDTO> {
 
     private Long usuarioId;
     private Long nivelId;
@@ -11,42 +16,27 @@ public class UsuarioNivelDTO {
 
     public UsuarioNivelDTO() {}
 
-    public UsuarioNivelDTO(Long usuarioId, Long nivelId, Integer pontosAtuais, Date dataUltimaAtualizacao) {
-        this.usuarioId = usuarioId;
-        this.nivelId = nivelId;
-        this.pontosAtuais = pontosAtuais;
-        this.dataUltimaAtualizacao = dataUltimaAtualizacao;
+    public UsuarioNivelDTO(UsuarioNivel usuarioNivel) {
+        this.usuarioId = usuarioNivel.getUsuario().getId();
+        this.nivelId = usuarioNivel.getNivel().getId();
+        this.pontosAtuais = usuarioNivel.getPontosAtuais();
+        this.dataUltimaAtualizacao = usuarioNivel.getDataUltimaAtualizacao();
+
+        // Adicionando links HATEOAS
+        add(linkTo(methodOn(UsuarioNivelController.class)
+                .buscarUsuarioNivel(usuarioId, nivelId)).withSelfRel());
+        add(linkTo(methodOn(UsuarioNivelController.class).listarUsuariosNiveis()).withRel("usuarios-niveis"));
     }
 
-    public Long getUsuarioId() {
-        return usuarioId;
-    }
+    public Long getUsuarioId() { return usuarioId; }
+    public void setUsuarioId(Long usuarioId) { this.usuarioId = usuarioId; }
 
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
-    }
+    public Long getNivelId() { return nivelId; }
+    public void setNivelId(Long nivelId) { this.nivelId = nivelId; }
 
-    public Long getNivelId() {
-        return nivelId;
-    }
+    public Integer getPontosAtuais() { return pontosAtuais; }
+    public void setPontosAtuais(Integer pontosAtuais) { this.pontosAtuais = pontosAtuais; }
 
-    public void setNivelId(Long nivelId) {
-        this.nivelId = nivelId;
-    }
-
-    public Integer getPontosAtuais() {
-        return pontosAtuais;
-    }
-
-    public void setPontosAtuais(Integer pontosAtuais) {
-        this.pontosAtuais = pontosAtuais;
-    }
-
-    public Date getDataUltimaAtualizacao() {
-        return dataUltimaAtualizacao;
-    }
-
-    public void setDataUltimaAtualizacao(Date dataUltimaAtualizacao) {
-        this.dataUltimaAtualizacao = dataUltimaAtualizacao;
-    }
+    public Date getDataUltimaAtualizacao() { return dataUltimaAtualizacao; }
+    public void setDataUltimaAtualizacao(Date dataUltimaAtualizacao) { this.dataUltimaAtualizacao = dataUltimaAtualizacao; }
 }

@@ -1,34 +1,52 @@
 package com.odontovision.Java_API.dtos;
 
-import com.odontovision.Java_API.entities.Consulta;
-import com.odontovision.Java_API.entities.Usuario;
+import com.odontovision.Java_API.controllers.ChecklistDiarioController;
+import com.odontovision.Java_API.entities.ChecklistDiario;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.hateoas.RepresentationModel;
+
 import java.util.Date;
 
-public class ChecklistDiarioDTO {
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+public class ChecklistDiarioDTO extends RepresentationModel<ChecklistDiarioDTO> {
 
     private Long id;
-    private Usuario usuario;
+
+    @NotNull
+    private Long usuarioId;
+
+    @NotNull
     private Date data;
+
+    @NotNull
     private char escovacao;
+
+    @NotNull
     private char fioDental;
-    private Consulta consultaValidacao;
+
+    private Long consultaValidacaoId;
 
     public ChecklistDiarioDTO() {}
 
-    public ChecklistDiarioDTO(Long id, Usuario usuario, Date data, char escovacao, char fioDental, Consulta consultaValidacao) {
-        this.id = id;
-        this.usuario = usuario;
-        this.data = data;
-        this.escovacao = escovacao;
-        this.fioDental = fioDental;
-        this.consultaValidacao = consultaValidacao;
+    public ChecklistDiarioDTO(ChecklistDiario checklist) {
+        this.id = checklist.getId();
+        this.usuarioId = checklist.getUsuario().getId();
+        this.data = checklist.getData();
+        this.escovacao = checklist.getEscovacao();
+        this.fioDental = checklist.getFioDental();
+        this.consultaValidacaoId = checklist.getConsultaValidacao() != null ? checklist.getConsultaValidacao().getId() : null;
+
+        // Adicionando links HATEOAS
+        add(linkTo(methodOn(ChecklistDiarioController.class).buscarChecklistPorId(checklist.getId())).withSelfRel());
+        add(linkTo(methodOn(ChecklistDiarioController.class).listarChecklists()).withRel("checklists"));
     }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public Usuario getUsuario() { return usuario; }
-    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+    public Long getUsuarioId() { return usuarioId; }
+    public void setUsuarioId(Long usuarioId) { this.usuarioId = usuarioId; }
 
     public Date getData() { return data; }
     public void setData(Date data) { this.data = data; }
@@ -39,6 +57,6 @@ public class ChecklistDiarioDTO {
     public char getFioDental() { return fioDental; }
     public void setFioDental(char fioDental) { this.fioDental = fioDental; }
 
-    public Consulta getConsultaValidacao() { return consultaValidacao; }
-    public void setConsultaValidacao(Consulta consultaValidacao) { this.consultaValidacao = consultaValidacao; }
+    public Long getConsultaValidacaoId() { return consultaValidacaoId; }
+    public void setConsultaValidacaoId(Long consultaValidacaoId) { this.consultaValidacaoId = consultaValidacaoId; }
 }

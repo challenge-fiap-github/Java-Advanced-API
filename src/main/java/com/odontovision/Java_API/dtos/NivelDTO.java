@@ -1,6 +1,11 @@
 package com.odontovision.Java_API.dtos;
 
-public class NivelDTO {
+import com.odontovision.Java_API.controllers.NivelController;
+import com.odontovision.Java_API.entities.Nivel;
+import org.springframework.hateoas.RepresentationModel;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+public class NivelDTO extends RepresentationModel<NivelDTO> {
 
     private Long id;
     private String descricao;
@@ -8,33 +13,22 @@ public class NivelDTO {
 
     public NivelDTO() {}
 
-    public NivelDTO(Long id, String descricao, Integer pontosNecessarios) {
-        this.id = id;
-        this.descricao = descricao;
-        this.pontosNecessarios = pontosNecessarios;
+    public NivelDTO(Nivel nivel) {
+        this.id = nivel.getId();
+        this.descricao = nivel.getDescricao();
+        this.pontosNecessarios = nivel.getPontosNecessarios();
+
+        // Adicionando links HATEOAS
+        add(linkTo(methodOn(NivelController.class).buscarNivelPorId(nivel.getId())).withSelfRel());
+        add(linkTo(methodOn(NivelController.class).listarNiveis()).withRel("niveis"));
     }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
 
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public Integer getPontosNecessarios() {
-        return pontosNecessarios;
-    }
-
-    public void setPontosNecessarios(Integer pontosNecessarios) {
-        this.pontosNecessarios = pontosNecessarios;
-    }
+    public Integer getPontosNecessarios() { return pontosNecessarios; }
+    public void setPontosNecessarios(Integer pontosNecessarios) { this.pontosNecessarios = pontosNecessarios; }
 }

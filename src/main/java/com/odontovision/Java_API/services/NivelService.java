@@ -15,11 +15,10 @@ public class NivelService {
     @Autowired
     private NivelRepository nivelRepository;
 
-    public Nivel cadastrarNivel(NivelDTO dto) {
+    public Nivel salvarNivel(NivelDTO dto) {
         Nivel nivel = new Nivel();
         nivel.setDescricao(dto.getDescricao());
         nivel.setPontosNecessarios(dto.getPontosNecessarios());
-
         return nivelRepository.save(nivel);
     }
 
@@ -32,6 +31,9 @@ public class NivelService {
     }
 
     public void excluirNivel(Long id) {
+        if (!nivelRepository.existsById(id)) {
+            throw new RuntimeException("Nível não encontrado");
+        }
         nivelRepository.deleteById(id);
     }
 }

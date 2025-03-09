@@ -5,6 +5,7 @@ import com.odontovision.Java_API.repositories.RecompensaRepository;
 import com.odontovision.Java_API.dtos.RecompensaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -14,13 +15,12 @@ public class RecompensaService {
     @Autowired
     private RecompensaRepository recompensaRepository;
 
-    public Recompensa cadastrarRecompensa(RecompensaDTO dto) {
+    public Recompensa salvarRecompensa(RecompensaDTO dto) {
         Recompensa recompensa = new Recompensa();
         recompensa.setDescricao(dto.getDescricao());
         recompensa.setPontosNecessarios(dto.getPontosNecessarios());
         recompensa.setQuantidadeDisponivel(dto.getQuantidadeDisponivel());
         recompensa.setDataExpiracao(dto.getDataExpiracao());
-
         return recompensaRepository.save(recompensa);
     }
 
@@ -33,6 +33,9 @@ public class RecompensaService {
     }
 
     public void excluirRecompensa(Long id) {
+        if (!recompensaRepository.existsById(id)) {
+            throw new RuntimeException("Recompensa não encontrada");
+        }
         recompensaRepository.deleteById(id);
     }
 }

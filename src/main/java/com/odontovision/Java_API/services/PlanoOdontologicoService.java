@@ -15,13 +15,12 @@ public class PlanoOdontologicoService {
     @Autowired
     private PlanoOdontologicoRepository planoOdontologicoRepository;
 
-    public PlanoOdontologico cadastrarPlanoOdontologico(PlanoOdontologicoDTO dto) {
+    public PlanoOdontologico salvarPlano(PlanoOdontologicoDTO dto) {
         PlanoOdontologico plano = new PlanoOdontologico();
         plano.setNomePlano(dto.getNomePlano());
         plano.setDescricao(dto.getDescricao());
         plano.setPreco(dto.getPreco());
         plano.setValidade(dto.getValidade());
-
         return planoOdontologicoRepository.save(plano);
     }
 
@@ -34,6 +33,9 @@ public class PlanoOdontologicoService {
     }
 
     public void excluirPlano(Long id) {
+        if (!planoOdontologicoRepository.existsById(id)) {
+            throw new RuntimeException("Plano odontológico não encontrado");
+        }
         planoOdontologicoRepository.deleteById(id);
     }
 }
