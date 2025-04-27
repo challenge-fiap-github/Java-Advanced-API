@@ -9,5 +9,5 @@ import java.time.LocalDate;
 /**
  * DTO for {@link com.odontovision.Java_API.entity.Usuario}
  */
-public record UsuarioResponseDto(Long id, @NotNull @Size(max = 100) String nome, @NotNull @Size(max = 100) String email,
-}
+public record UsuarioResponseDto(Long id, @NotNull @Size(max = 100) String nome, @NotNull @Size(max = 100) String email, LocalDate dataNascimento, @NotNull @Size(max = 11) String cpf, @Size(max = 15) String telefone) implements Serializable {
+  }
