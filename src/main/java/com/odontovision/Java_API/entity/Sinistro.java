@@ -6,11 +6,11 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "SINISTRO", schema = "RM553568")
+@Table(name = "SINISTRO")
 public class Sinistro {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SINISTRO_id_gen")
-    @SequenceGenerator(name = "SINISTRO_id_gen", sequenceName = "ISEQ$$_2717013", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 
@@ -29,6 +29,8 @@ public class Sinistro {
     @Size(max = 255)
     @Column(name = "DESCRICAO_RISCO")
     private String descricaoRisco;
+
+    // Getters e Setters
 
     public Long getId() {
         return id;
@@ -77,5 +79,4 @@ public class Sinistro {
     public void setDescricaoRisco(String descricaoRisco) {
         this.descricaoRisco = descricaoRisco;
     }
-
 }

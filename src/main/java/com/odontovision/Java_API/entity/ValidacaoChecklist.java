@@ -2,16 +2,14 @@ package com.odontovision.Java_API.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.annotations.ColumnDefault;
-
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "VALIDACAO_CHECKLIST", schema = "RM553568")
+@Table(name = "VALIDACAO_CHECKLIST")
 public class ValidacaoChecklist {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "VALIDACAO_CHECKLIST_id_gen")
-    @SequenceGenerator(name = "VALIDACAO_CHECKLIST_id_gen", sequenceName = "ISEQ$$_2717013", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Corrigido para IDENTITY
     @Column(name = "ID", nullable = false)
     private Long id;
 
@@ -23,7 +21,6 @@ public class ValidacaoChecklist {
     @Column(name = "CONSULTA_ID", nullable = false)
     private Long consultaId;
 
-    @ColumnDefault("CURRENT_DATE")
     @Column(name = "DATA_VALIDACAO")
     private LocalDate dataValidacao;
 
@@ -32,6 +29,8 @@ public class ValidacaoChecklist {
 
     @Column(name = "PONTOS_BONUS")
     private Long pontosBonus;
+
+    // Getters e Setters
 
     public Long getId() {
         return id;
@@ -80,5 +79,4 @@ public class ValidacaoChecklist {
     public void setPontosBonus(Long pontosBonus) {
         this.pontosBonus = pontosBonus;
     }
-
 }

@@ -8,11 +8,11 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "NIVEL", schema = "RM553568")
+@Table(name = "NIVEL")
 public class Nivel {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "NIVEL_id_gen")
-    @SequenceGenerator(name = "NIVEL_id_gen", sequenceName = "ISEQ$$_2717013", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 

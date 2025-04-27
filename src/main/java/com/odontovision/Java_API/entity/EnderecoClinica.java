@@ -5,11 +5,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "ENDERECO_CLINICA", schema = "RM553568")
+@Table(name = "ENDERECO_CLINICA")
 public class EnderecoClinica {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ENDERECO_CLINICA_id_gen")
-    @SequenceGenerator(name = "ENDERECO_CLINICA_id_gen", sequenceName = "ISEQ$$_2717013", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 

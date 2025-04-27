@@ -8,11 +8,11 @@ import org.hibernate.annotations.ColumnDefault;
 import java.time.Instant;
 
 @Entity
-@Table(name = "AUDITORIA", schema = "RM553568")
+@Table(name = "AUDITORIA")
 public class Auditoria {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AUDITORIA_id_gen")
-    @SequenceGenerator(name = "AUDITORIA_id_gen", sequenceName = "ISEQ$$_2717013", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 
@@ -29,7 +29,6 @@ public class Auditoria {
     @Column(name = "USUARIO_ID")
     private Long usuarioId;
 
-    @ColumnDefault("SYSTIMESTAMP")
     @Column(name = "DATA_OPERACAO")
     private Instant dataOperacao;
 
@@ -40,6 +39,13 @@ public class Auditoria {
     @Lob
     @Column(name = "VALORES_NOVOS")
     private String valoresNovos;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.dataOperacao == null) {
+            this.dataOperacao = Instant.now();
+        }
+    }
 
     public Long getId() {
         return id;

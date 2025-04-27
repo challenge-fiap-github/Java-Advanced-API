@@ -10,7 +10,9 @@ import java.util.Objects;
 
 @Embeddable
 public class PlanoProcedimentoId implements Serializable {
+
     private static final long serialVersionUID = 8405514640727551471L;
+
     @NotNull
     @Column(name = "PLANO_ID", nullable = false)
     private Long planoId;
@@ -39,14 +41,13 @@ public class PlanoProcedimentoId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        PlanoProcedimentoId entity = (PlanoProcedimentoId) o;
-        return Objects.equals(this.procedimentoId, entity.procedimentoId) &&
-                Objects.equals(this.planoId, entity.planoId);
+        PlanoProcedimentoId that = (PlanoProcedimentoId) o;
+        return Objects.equals(planoId, that.planoId) &&
+                Objects.equals(procedimentoId, that.procedimentoId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(procedimentoId, planoId);
+        return Objects.hash(planoId, procedimentoId);
     }
-
 }

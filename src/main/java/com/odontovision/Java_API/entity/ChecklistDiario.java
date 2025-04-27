@@ -6,11 +6,11 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "CHECKLIST_DIARIO", schema = "RM553568")
+@Table(name = "CHECKLIST_DIARIO")
 public class ChecklistDiario {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CHECKLIST_DIARIO_id_gen")
-    @SequenceGenerator(name = "CHECKLIST_DIARIO_id_gen", sequenceName = "ISEQ$$_2717013", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 
@@ -19,7 +19,7 @@ public class ChecklistDiario {
     private Long usuarioId;
 
     @NotNull
-    @Column(name = "\"DATA\"", nullable = false)
+    @Column(name = "DATA", nullable = false) // Removido as aspas
     private LocalDate data;
 
     @Column(name = "ESCOVACAO")
@@ -30,6 +30,8 @@ public class ChecklistDiario {
 
     @Column(name = "CONSULTA_VALIDACAO_ID")
     private Long consultaValidacaoId;
+
+    // Getters e Setters
 
     public Long getId() {
         return id;
@@ -78,5 +80,4 @@ public class ChecklistDiario {
     public void setConsultaValidacaoId(Long consultaValidacaoId) {
         this.consultaValidacaoId = consultaValidacaoId;
     }
-
 }

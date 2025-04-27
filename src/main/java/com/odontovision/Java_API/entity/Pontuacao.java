@@ -2,15 +2,13 @@ package com.odontovision.Java_API.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "PONTUACAO", schema = "RM553568")
+@Table(name = "PONTUACAO")
 public class Pontuacao {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PONTUACAO_id_gen")
-    @SequenceGenerator(name = "PONTUACAO_id_gen", sequenceName = "ISEQ$$_2717013", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 

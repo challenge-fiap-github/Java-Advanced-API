@@ -2,16 +2,15 @@ package com.odontovision.Java_API.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "USUARIO_PLANO", schema = "RM553568")
+@Table(name = "USUARIO_PLANO")
 public class UsuarioPlano {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USUARIO_PLANO_id_gen")
-    @SequenceGenerator(name = "USUARIO_PLANO_id_gen", sequenceName = "ISEQ$$_2717013", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // <- Troquei para IDENTITY
     @Column(name = "ID", nullable = false)
     private Long id;
 
@@ -23,9 +22,10 @@ public class UsuarioPlano {
     @Column(name = "PLANO_ID", nullable = false)
     private Long planoId;
 
-    @ColumnDefault("SYSDATE")
     @Column(name = "DATA_ADESAO")
     private LocalDate dataAdesao;
+
+    // Getters e Setters
 
     public Long getId() {
         return id;
@@ -58,5 +58,4 @@ public class UsuarioPlano {
     public void setDataAdesao(LocalDate dataAdesao) {
         this.dataAdesao = dataAdesao;
     }
-
 }

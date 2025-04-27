@@ -8,14 +8,14 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "DENTISTA", schema = "RM553568", uniqueConstraints = {
-        @UniqueConstraint(name = "SYS_C004485545", columnNames = {"CRO"}),
-        @UniqueConstraint(name = "SYS_C004485546", columnNames = {"EMAIL"})
+@Table(name = "DENTISTA", uniqueConstraints = {
+        @UniqueConstraint(name = "UK_CRO", columnNames = {"CRO"}),
+        @UniqueConstraint(name = "UK_EMAIL", columnNames = {"EMAIL"})
 })
 public class Dentista {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DENTISTA_id_gen")
-    @SequenceGenerator(name = "DENTISTA_id_gen", sequenceName = "ISEQ$$_2717013", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 
@@ -43,16 +43,13 @@ public class Dentista {
     private String email;
 
     @OneToMany
-    @JoinColumn
     private Set<Consulta> consultas = new LinkedHashSet<>();
 
     @OneToMany
-    @JoinColumn
-    private Set<com.odontovision.Java_API.entity.EnderecoClinica> enderecoClinicas = new LinkedHashSet<>();
+    private Set<EnderecoClinica> enderecoClinicas = new LinkedHashSet<>();
 
     @OneToMany
-    @JoinColumn
-    private Set<com.odontovision.Java_API.entity.HistoricoTratamento> historicoTratamentos = new LinkedHashSet<>();
+    private Set<HistoricoTratamento> historicoTratamentos = new LinkedHashSet<>();
 
     public Long getId() {
         return id;

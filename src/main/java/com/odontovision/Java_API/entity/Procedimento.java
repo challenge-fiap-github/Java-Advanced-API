@@ -9,11 +9,10 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "PROCEDIMENTO", schema = "RM553568")
+@Table(name = "PROCEDIMENTO")
 public class Procedimento {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PROCEDIMENTO_id_gen")
-    @SequenceGenerator(name = "PROCEDIMENTO_id_gen", sequenceName = "ISEQ$$_2717013", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 

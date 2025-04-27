@@ -7,11 +7,11 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "HISTORICO_TRATAMENTO", schema = "RM553568")
+@Table(name = "HISTORICO_TRATAMENTO")
 public class HistoricoTratamento {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HISTORICO_TRATAMENTO_id_gen")
-    @SequenceGenerator(name = "HISTORICO_TRATAMENTO_id_gen", sequenceName = "ISEQ$$_2717013", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 

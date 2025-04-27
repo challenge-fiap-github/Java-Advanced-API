@@ -10,11 +10,11 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "PLANO_ODONTOLOGICO", schema = "RM553568")
+@Table(name = "PLANO_ODONTOLOGICO")
 public class PlanoOdontologico {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PLANO_ODONTOLOGICO_id_gen")
-    @SequenceGenerator(name = "PLANO_ODONTOLOGICO_id_gen", sequenceName = "ISEQ$$_2717013", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 
@@ -44,7 +44,6 @@ public class PlanoOdontologico {
     @OneToMany
     @JoinColumn
     private Set<com.odontovision.Java_API.entity.UsuarioPlano> usuarioPlanos = new LinkedHashSet<>();
-
     public Long getId() {
         return id;
     }

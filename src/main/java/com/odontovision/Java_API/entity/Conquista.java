@@ -9,8 +9,9 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "CONQUISTA", schema = "RM553568")
+@Table(name = "CONQUISTA")
 public class Conquista {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
@@ -32,9 +33,10 @@ public class Conquista {
     @Column(name = "DATA_EXPIRACAO")
     private LocalDate dataExpiracao;
 
-    @OneToMany
-    @JoinColumn
-    private Set<com.odontovision.Java_API.entity.UsuarioConquista> usuarioConquistas = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "conquista")
+    private Set<UsuarioConquista> usuarioConquistas = new LinkedHashSet<>();
+
+    // Getters e Setters
 
     public Long getId() {
         return id;
@@ -76,12 +78,11 @@ public class Conquista {
         this.dataExpiracao = dataExpiracao;
     }
 
-    public Set<com.odontovision.Java_API.entity.UsuarioConquista> getUsuarioConquistas() {
+    public Set<UsuarioConquista> getUsuarioConquistas() {
         return usuarioConquistas;
     }
 
-    public void setUsuarioConquistas(Set<com.odontovision.Java_API.entity.UsuarioConquista> usuarioConquistas) {
+    public void setUsuarioConquistas(Set<UsuarioConquista> usuarioConquistas) {
         this.usuarioConquistas = usuarioConquistas;
     }
-
 }

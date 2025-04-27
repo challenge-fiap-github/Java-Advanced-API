@@ -9,11 +9,11 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "CONSULTA", schema = "RM553568")
+@Table(name = "CONSULTA")
 public class Consulta {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CONSULTA_id_gen")
-    @SequenceGenerator(name = "CONSULTA_id_gen", sequenceName = "ISEQ$$_2717013", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 
@@ -41,21 +41,19 @@ public class Consulta {
     @Column(name = "OBSERVACOES")
     private String observacoes;
 
-    @OneToMany
-    @JoinColumn
+    @OneToMany(mappedBy = "consulta")
     private Set<ChecklistDiario> checklistDiarios = new LinkedHashSet<>();
 
-    @OneToMany
-    @JoinColumn
-    private Set<com.odontovision.Java_API.entity.ConsultaProcedimento> consultaProcedimentos = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "consulta")
+    private Set<ConsultaProcedimento> consultaProcedimentos = new LinkedHashSet<>();
 
-    @OneToMany
-    @JoinColumn
-    private Set<com.odontovision.Java_API.entity.Diagnostico> diagnosticos = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "consulta")
+    private Set<Diagnostico> diagnosticos = new LinkedHashSet<>();
 
-    @OneToMany
-    @JoinColumn
-    private Set<com.odontovision.Java_API.entity.ValidacaoChecklist> validacaoChecklists = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "consulta")
+    private Set<ValidacaoChecklist> validacaoChecklists = new LinkedHashSet<>();
+
+    // Getters e Setters
 
     public Long getId() {
         return id;
@@ -121,28 +119,27 @@ public class Consulta {
         this.checklistDiarios = checklistDiarios;
     }
 
-    public Set<com.odontovision.Java_API.entity.ConsultaProcedimento> getConsultaProcedimentos() {
+    public Set<ConsultaProcedimento> getConsultaProcedimentos() {
         return consultaProcedimentos;
     }
 
-    public void setConsultaProcedimentos(Set<com.odontovision.Java_API.entity.ConsultaProcedimento> consultaProcedimentos) {
+    public void setConsultaProcedimentos(Set<ConsultaProcedimento> consultaProcedimentos) {
         this.consultaProcedimentos = consultaProcedimentos;
     }
 
-    public Set<com.odontovision.Java_API.entity.Diagnostico> getDiagnosticos() {
+    public Set<Diagnostico> getDiagnosticos() {
         return diagnosticos;
     }
 
-    public void setDiagnosticos(Set<com.odontovision.Java_API.entity.Diagnostico> diagnosticos) {
+    public void setDiagnosticos(Set<Diagnostico> diagnosticos) {
         this.diagnosticos = diagnosticos;
     }
 
-    public Set<com.odontovision.Java_API.entity.ValidacaoChecklist> getValidacaoChecklists() {
+    public Set<ValidacaoChecklist> getValidacaoChecklists() {
         return validacaoChecklists;
     }
 
-    public void setValidacaoChecklists(Set<com.odontovision.Java_API.entity.ValidacaoChecklist> validacaoChecklists) {
+    public void setValidacaoChecklists(Set<ValidacaoChecklist> validacaoChecklists) {
         this.validacaoChecklists = validacaoChecklists;
     }
-
 }

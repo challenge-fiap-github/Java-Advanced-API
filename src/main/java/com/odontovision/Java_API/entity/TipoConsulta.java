@@ -8,13 +8,11 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "TIPO_CONSULTA", schema = "RM553568", uniqueConstraints = {
-        @UniqueConstraint(name = "SYS_C004485612", columnNames = {"DESCRICAO"})
-})
+@Table(name = "TIPO_CONSULTA")
 public class TipoConsulta {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TIPO_CONSULTA_id_gen")
-    @SequenceGenerator(name = "TIPO_CONSULTA_id_gen", sequenceName = "ISEQ$$_2717013", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Mudança aqui
     @Column(name = "ID", nullable = false)
     private Long id;
 
@@ -26,6 +24,8 @@ public class TipoConsulta {
     @OneToMany
     @JoinColumn
     private Set<Consulta> consultas = new LinkedHashSet<>();
+
+    // Getters e Setters
 
     public Long getId() {
         return id;
@@ -50,5 +50,4 @@ public class TipoConsulta {
     public void setConsultas(Set<Consulta> consultas) {
         this.consultas = consultas;
     }
-
 }

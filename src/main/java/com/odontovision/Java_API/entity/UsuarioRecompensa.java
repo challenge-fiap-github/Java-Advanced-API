@@ -2,16 +2,15 @@ package com.odontovision.Java_API.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "USUARIO_RECOMPENSA", schema = "RM553568")
+@Table(name = "USUARIO_RECOMPENSA")
 public class UsuarioRecompensa {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USUARIO_RECOMPENSA_id_gen")
-    @SequenceGenerator(name = "USUARIO_RECOMPENSA_id_gen", sequenceName = "ISEQ$$_2717013", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 
@@ -19,14 +18,14 @@ public class UsuarioRecompensa {
     @Column(name = "USUARIO_ID", nullable = false)
     private Long usuarioId;
 
-    @NotNull
-    @Column(name = "RECOMPENSA_ID", nullable = false)
-    private Long recompensaId;
+    @ManyToOne(fetch = FetchType.LAZY) // Relação forte e eficiente
+    @JoinColumn(name = "RECOMPENSA_ID", nullable = false)
+    private Recompensa recompensa;
 
-    @ColumnDefault("CURRENT_DATE")
     @Column(name = "DATA_RESGATE")
     private LocalDate dataResgate;
 
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -43,12 +42,12 @@ public class UsuarioRecompensa {
         this.usuarioId = usuarioId;
     }
 
-    public Long getRecompensaId() {
-        return recompensaId;
+    public Recompensa getRecompensa() {
+        return recompensa;
     }
 
-    public void setRecompensaId(Long recompensaId) {
-        this.recompensaId = recompensaId;
+    public void setRecompensa(Recompensa recompensa) {
+        this.recompensa = recompensa;
     }
 
     public LocalDate getDataResgate() {
@@ -58,5 +57,4 @@ public class UsuarioRecompensa {
     public void setDataResgate(LocalDate dataResgate) {
         this.dataResgate = dataResgate;
     }
-
 }

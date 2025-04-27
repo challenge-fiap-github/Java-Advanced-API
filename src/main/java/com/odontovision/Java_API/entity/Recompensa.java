@@ -9,16 +9,16 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "RECOMPENSA", schema = "RM553568")
+@Table(name = "RECOMPENSA")
 public class Recompensa {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RECOMPENSA_id_gen")
-    @SequenceGenerator(name = "RECOMPENSA_id_gen", sequenceName = "ISEQ$$_2717013", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // ✅ Para funcionar liso no Docker e bancos em geral
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Size(max = 255)
     @NotNull
+    @Size(max = 255)
     @Column(name = "DESCRICAO", nullable = false)
     private String descricao;
 
@@ -32,10 +32,10 @@ public class Recompensa {
     @Column(name = "DATA_EXPIRACAO")
     private LocalDate dataExpiracao;
 
-    @OneToMany
-    @JoinColumn
-    private Set<com.odontovision.Java_API.entity.UsuarioRecompensa> usuarioRecompensas = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "recompensa") // ✅ Melhor prática de relacionamento
+    private Set<UsuarioRecompensa> usuarioRecompensas = new LinkedHashSet<>();
 
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -76,12 +76,11 @@ public class Recompensa {
         this.dataExpiracao = dataExpiracao;
     }
 
-    public Set<com.odontovision.Java_API.entity.UsuarioRecompensa> getUsuarioRecompensas() {
+    public Set<UsuarioRecompensa> getUsuarioRecompensas() {
         return usuarioRecompensas;
     }
 
-    public void setUsuarioRecompensas(Set<com.odontovision.Java_API.entity.UsuarioRecompensa> usuarioRecompensas) {
+    public void setUsuarioRecompensas(Set<UsuarioRecompensa> usuarioRecompensas) {
         this.usuarioRecompensas = usuarioRecompensas;
     }
-
 }
