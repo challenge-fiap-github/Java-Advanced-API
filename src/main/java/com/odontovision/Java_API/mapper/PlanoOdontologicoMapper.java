@@ -28,6 +28,7 @@ public class PlanoOdontologicoMapper {
             return null;
         }
         return new PlanoOdontologicoResponseDto(
+                plano.getId(),
                 plano.getNomePlano(),
                 plano.getDescricao(),
                 plano.getPreco(),
