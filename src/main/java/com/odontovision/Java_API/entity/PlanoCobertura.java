@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "PLANO_COBERTURA")
 public class PlanoCobertura {
@@ -13,14 +15,20 @@ public class PlanoCobertura {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @NotNull
-    @Column(name = "PLANO_ID", nullable = false)
-    private Long planoId;
+    /**
+     * Mapeamento para PlanoOdontologico.
+     * O nome do campo deve bater com o mappedBy em PlanoOdontologico (mappedBy="plano").
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "PLANO_ID", nullable = false)
+    private PlanoOdontologico plano;
 
     @Size(max = 255)
     @NotNull
     @Column(name = "DESCRICAO", nullable = false)
     private String descricao;
+
+    // ======== Getters & Setters ========
 
     public Long getId() {
         return id;
@@ -30,12 +38,12 @@ public class PlanoCobertura {
         this.id = id;
     }
 
-    public Long getPlanoId() {
-        return planoId;
+    public PlanoOdontologico getPlano() {
+        return plano;
     }
 
-    public void setPlanoId(Long planoId) {
-        this.planoId = planoId;
+    public void setPlano(PlanoOdontologico plano) {
+        this.plano = plano;
     }
 
     public String getDescricao() {
@@ -46,4 +54,17 @@ public class PlanoCobertura {
         this.descricao = descricao;
     }
 
+    // ======== equals & hashCode ========
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PlanoCobertura that)) return false;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

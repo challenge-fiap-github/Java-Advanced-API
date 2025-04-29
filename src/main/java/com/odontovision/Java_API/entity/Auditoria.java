@@ -3,10 +3,11 @@ package com.odontovision.Java_API.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.ColumnDefault;
-
 import java.time.Instant;
 
+/**
+ * Registra operações de INSERT/UPDATE/DELETE nas tabelas do sistema.
+ */
 @Entity
 @Table(name = "AUDITORIA")
 public class Auditoria {
@@ -16,20 +17,25 @@ public class Auditoria {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Size(max = 50)
     @NotNull
+    @Size(max = 50)
     @Column(name = "TABELA_AFETADA", nullable = false, length = 50)
     private String tabelaAfetada;
 
-    @Size(max = 10)
     @NotNull
+    @Size(max = 10)
     @Column(name = "TIPO_OPERACAO", nullable = false, length = 10)
     private String tipoOperacao;
 
+    /**
+     * Se quiser navegar até o usuário que fez a alteração,
+     * substitua por @ManyToOne para Usuario.
+     */
     @Column(name = "USUARIO_ID")
     private Long usuarioId;
 
-    @Column(name = "DATA_OPERACAO")
+    @NotNull
+    @Column(name = "DATA_OPERACAO", nullable = false, updatable = false)
     private Instant dataOperacao;
 
     @Lob
@@ -41,18 +47,14 @@ public class Auditoria {
     private String valoresNovos;
 
     @PrePersist
-    public void prePersist() {
-        if (this.dataOperacao == null) {
-            this.dataOperacao = Instant.now();
-        }
+    protected void onCreate() {
+        this.dataOperacao = Instant.now();
     }
+
+    // ======== Getters & Setters ========
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getTabelaAfetada() {
@@ -83,9 +85,7 @@ public class Auditoria {
         return dataOperacao;
     }
 
-    public void setDataOperacao(Instant dataOperacao) {
-        this.dataOperacao = dataOperacao;
-    }
+    // dataOperacao é somente leitura após inserção
 
     public String getValoresAntigos() {
         return valoresAntigos;
@@ -102,5 +102,4 @@ public class Auditoria {
     public void setValoresNovos(String valoresNovos) {
         this.valoresNovos = valoresNovos;
     }
-
 }

@@ -2,7 +2,6 @@ package com.odontovision.Java_API.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-
 import java.time.LocalDate;
 
 @Entity
@@ -14,12 +13,16 @@ public class ChecklistDiario {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @NotNull
-    @Column(name = "USUARIO_ID", nullable = false)
-    private Long usuarioId;
+    /**
+     * Associação com Usuário.
+     * Antes tínhamos apenas usuarioId, agora navegamos diretamente para a entidade.
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "USUARIO_ID", nullable = false)
+    private Usuario usuario;
 
     @NotNull
-    @Column(name = "DATA", nullable = false) // Removido as aspas
+    @Column(name = "DATA", nullable = false)
     private LocalDate data;
 
     @Column(name = "ESCOVACAO")
@@ -28,10 +31,17 @@ public class ChecklistDiario {
     @Column(name = "FIO_DENTAL")
     private Boolean fioDental;
 
-    @Column(name = "CONSULTA_VALIDACAO_ID")
-    private Long consultaValidacaoId;
+    /**
+     * Associação com Consulta para validação.
+     * Antes tínhamos apenas consultaValidacaoId, agora navegamos diretamente para a entidade.
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CONSULTA_VALIDACAO_ID")
+    private Consulta consulta;
 
+    // ================================
     // Getters e Setters
+    // ================================
 
     public Long getId() {
         return id;
@@ -41,12 +51,12 @@ public class ChecklistDiario {
         this.id = id;
     }
 
-    public Long getUsuarioId() {
-        return usuarioId;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public LocalDate getData() {
@@ -73,11 +83,11 @@ public class ChecklistDiario {
         this.fioDental = fioDental;
     }
 
-    public Long getConsultaValidacaoId() {
-        return consultaValidacaoId;
+    public Consulta getConsulta() {
+        return consulta;
     }
 
-    public void setConsultaValidacaoId(Long consultaValidacaoId) {
-        this.consultaValidacaoId = consultaValidacaoId;
+    public void setConsulta(Consulta consulta) {
+        this.consulta = consulta;
     }
 }

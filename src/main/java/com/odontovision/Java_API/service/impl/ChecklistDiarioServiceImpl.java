@@ -2,6 +2,8 @@ package com.odontovision.Java_API.service.impl;
 
 import com.odontovision.Java_API.dto.ChecklistDiarioDto;
 import com.odontovision.Java_API.entity.ChecklistDiario;
+import com.odontovision.Java_API.entity.Consulta;
+import com.odontovision.Java_API.entity.Usuario;
 import com.odontovision.Java_API.exception.ResourceNotFoundException;
 import com.odontovision.Java_API.mapper.ChecklistDiarioMapper;
 import com.odontovision.Java_API.repository.ChecklistDiarioRepository;
@@ -24,8 +26,8 @@ public class ChecklistDiarioServiceImpl implements ChecklistDiarioService {
 
     @Override
     public ChecklistDiarioDto criarChecklist(ChecklistDiarioDto dto) {
-        ChecklistDiario checklist = ChecklistDiarioMapper.toEntity(dto);
-        ChecklistDiario salvo = checklistRepository.save(checklist);
+        ChecklistDiario entity = ChecklistDiarioMapper.toEntity(dto);
+        ChecklistDiario salvo = checklistRepository.save(entity);
         return ChecklistDiarioMapper.toResponseDto(salvo);
     }
 
@@ -34,11 +36,23 @@ public class ChecklistDiarioServiceImpl implements ChecklistDiarioService {
         ChecklistDiario existente = checklistRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Checklist não encontrado com ID: " + id));
 
-        existente.setUsuarioId(dto.usuarioId());
+        // Atualiza a associação de usuário
+        Usuario u = new Usuario();
+        u.setId(dto.usuarioId());
+        existente.setUsuario(u);
+
         existente.setData(dto.data());
         existente.setEscovacao(dto.escovacao());
         existente.setFioDental(dto.fioDental());
-        existente.setConsultaValidacaoId(dto.consultaValidacaoId());
+
+        // Atualiza a associação de consulta de validação (pode ser nulo)
+        if (dto.consultaValidacaoId() != null) {
+            Consulta c = new Consulta();
+            c.setId(dto.consultaValidacaoId());
+            existente.setConsulta(c);
+        } else {
+            existente.setConsulta(null);
+        }
 
         ChecklistDiario atualizado = checklistRepository.save(existente);
         return ChecklistDiarioMapper.toResponseDto(atualizado);

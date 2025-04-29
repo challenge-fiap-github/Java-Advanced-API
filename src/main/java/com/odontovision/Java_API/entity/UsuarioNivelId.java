@@ -1,23 +1,18 @@
 package com.odontovision.Java_API.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import jakarta.validation.constraints.NotNull;
-import org.hibernate.Hibernate;
-
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
 public class UsuarioNivelId implements Serializable {
-    private static final long serialVersionUID = -5176883195219479580L;
-    @NotNull
     @Column(name = "USUARIO_ID", nullable = false)
     private Long usuarioId;
 
-    @NotNull
     @Column(name = "NIVEL_ID", nullable = false)
     private Long nivelId;
+
+    // ====== Getters & Setters ======
 
     public Long getUsuarioId() {
         return usuarioId;
@@ -35,18 +30,19 @@ public class UsuarioNivelId implements Serializable {
         this.nivelId = nivelId;
     }
 
+    // ====== equals & hashCode ======
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        UsuarioNivelId entity = (UsuarioNivelId) o;
-        return Objects.equals(this.nivelId, entity.nivelId) &&
-                Objects.equals(this.usuarioId, entity.usuarioId);
+        if (!(o instanceof UsuarioNivelId)) return false;
+        UsuarioNivelId that = (UsuarioNivelId) o;
+        return Objects.equals(usuarioId, that.usuarioId) &&
+                Objects.equals(nivelId, that.nivelId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nivelId, usuarioId);
+        return Objects.hash(usuarioId, nivelId);
     }
-
 }

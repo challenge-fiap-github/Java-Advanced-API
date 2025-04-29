@@ -3,7 +3,6 @@ package com.odontovision.Java_API.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
 import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -21,39 +20,55 @@ public class Consulta {
     @Column(name = "DATA_HORA", nullable = false)
     private Instant dataHora;
 
-    @NotNull
-    @Column(name = "USUARIO_ID", nullable = false)
-    private Long usuarioId;
+    /**
+     * Relação com Usuario.
+     * Substitui o atributo usuarioId.
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "USUARIO_ID", nullable = false)
+    private Usuario usuario;
 
-    @NotNull
-    @Column(name = "DENTISTA_ID", nullable = false)
-    private Long dentistaId;
+    /**
+     * Relação com Dentista.
+     * Substitui o atributo dentistaId.
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "DENTISTA_ID", nullable = false)
+    private Dentista dentista;
 
-    @NotNull
-    @Column(name = "STATUS_ID", nullable = false)
-    private Long statusId;
+    /**
+     * Relação com StatusConsulta.
+     * Substitui o atributo statusId.
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "STATUS_ID", nullable = false)
+    private StatusConsulta statusConsulta;
 
-    @NotNull
-    @Column(name = "TIPO_CONSULTA_ID", nullable = false)
-    private Long tipoConsultaId;
+    /**
+     * Relação com TipoConsulta.
+     * Substitui o atributo tipoConsultaId.
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "TIPO_CONSULTA_ID", nullable = false)
+    private TipoConsulta tipoConsulta;
 
     @Size(max = 255)
     @Column(name = "OBSERVACOES")
     private String observacoes;
 
-    @OneToMany(mappedBy = "consulta")
+    @OneToMany(mappedBy = "consulta", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ChecklistDiario> checklistDiarios = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "consulta")
+    @OneToMany(mappedBy = "consulta", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ConsultaProcedimento> consultaProcedimentos = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "consulta")
+    @OneToMany(mappedBy = "consulta", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Diagnostico> diagnosticos = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "consulta")
+    @OneToMany(mappedBy = "consulta", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ValidacaoChecklist> validacaoChecklists = new LinkedHashSet<>();
 
-    // Getters e Setters
+    // ======== Getters & Setters ========
 
     public Long getId() {
         return id;
@@ -71,36 +86,36 @@ public class Consulta {
         this.dataHora = dataHora;
     }
 
-    public Long getUsuarioId() {
-        return usuarioId;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public Long getDentistaId() {
-        return dentistaId;
+    public Dentista getDentista() {
+        return dentista;
     }
 
-    public void setDentistaId(Long dentistaId) {
-        this.dentistaId = dentistaId;
+    public void setDentista(Dentista dentista) {
+        this.dentista = dentista;
     }
 
-    public Long getStatusId() {
-        return statusId;
+    public StatusConsulta getStatusConsulta() {
+        return statusConsulta;
     }
 
-    public void setStatusId(Long statusId) {
-        this.statusId = statusId;
+    public void setStatusConsulta(StatusConsulta statusConsulta) {
+        this.statusConsulta = statusConsulta;
     }
 
-    public Long getTipoConsultaId() {
-        return tipoConsultaId;
+    public TipoConsulta getTipoConsulta() {
+        return tipoConsulta;
     }
 
-    public void setTipoConsultaId(Long tipoConsultaId) {
-        this.tipoConsultaId = tipoConsultaId;
+    public void setTipoConsulta(TipoConsulta tipoConsulta) {
+        this.tipoConsulta = tipoConsulta;
     }
 
     public String getObservacoes() {

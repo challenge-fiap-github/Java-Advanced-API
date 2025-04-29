@@ -3,7 +3,6 @@ package com.odontovision.Java_API.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -12,7 +11,7 @@ import java.util.Set;
 public class TipoConsulta {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Mudança aqui
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 
@@ -21,11 +20,13 @@ public class TipoConsulta {
     @Column(name = "DESCRICAO", nullable = false, length = 50)
     private String descricao;
 
-    @OneToMany
-    @JoinColumn
+    /**
+     * Agora mapeado por 'tipoConsulta' na Consulta.
+     */
+    @OneToMany(mappedBy = "tipoConsulta", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Consulta> consultas = new LinkedHashSet<>();
 
-    // Getters e Setters
+    // getters & setters
 
     public Long getId() {
         return id;

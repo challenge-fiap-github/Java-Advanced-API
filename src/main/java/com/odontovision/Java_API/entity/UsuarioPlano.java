@@ -2,7 +2,6 @@ package com.odontovision.Java_API.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-
 import java.time.LocalDate;
 
 @Entity
@@ -10,22 +9,28 @@ import java.time.LocalDate;
 public class UsuarioPlano {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // <- Troquei para IDENTITY
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @NotNull
-    @Column(name = "USUARIO_ID", nullable = false)
-    private Long usuarioId;
+    /**
+     * Antes era apenas Long usuarioId; agora relacionamos com Usuario.
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "USUARIO_ID", nullable = false)
+    private Usuario usuario;
 
-    @NotNull
-    @Column(name = "PLANO_ID", nullable = false)
-    private Long planoId;
+    /**
+     * Antes era apenas Long planoId; agora relacionamos com PlanoOdontologico.
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "PLANO_ID", nullable = false)
+    private PlanoOdontologico plano;
 
     @Column(name = "DATA_ADESAO")
     private LocalDate dataAdesao;
 
-    // Getters e Setters
+    // ======== Getters & Setters ========
 
     public Long getId() {
         return id;
@@ -35,20 +40,20 @@ public class UsuarioPlano {
         this.id = id;
     }
 
-    public Long getUsuarioId() {
-        return usuarioId;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public Long getPlanoId() {
-        return planoId;
+    public PlanoOdontologico getPlano() {
+        return plano;
     }
 
-    public void setPlanoId(Long planoId) {
-        this.planoId = planoId;
+    public void setPlano(PlanoOdontologico plano) {
+        this.plano = plano;
     }
 
     public LocalDate getDataAdesao() {

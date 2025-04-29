@@ -15,8 +15,8 @@ public class SinistroMapper {
         }
         return new SinistroResponseDto(
                 sinistro.getId(),
-                sinistro.getPacienteId(),
-                sinistro.getProcedimentoId(),
+                sinistro.getPaciente().getId(),        // antes era getPacienteId()
+                sinistro.getProcedimento().getId(),    // antes era getProcedimentoId()
                 sinistro.getDataSinistro(),
                 sinistro.getRiscoFraude(),
                 sinistro.getDescricaoRisco()

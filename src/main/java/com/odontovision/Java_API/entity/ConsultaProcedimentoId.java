@@ -19,14 +19,15 @@ public class ConsultaProcedimentoId implements Serializable {
     @Column(name = "PROCEDIMENTO_ID", nullable = false)
     private Long procedimentoId;
 
-    // 🔵 Construtor padrão obrigatório
-    public ConsultaProcedimentoId() {
-    }
+    // Construtor padrão
+    public ConsultaProcedimentoId() {}
 
     public ConsultaProcedimentoId(Long consultaId, Long procedimentoId) {
         this.consultaId = consultaId;
         this.procedimentoId = procedimentoId;
     }
+
+    // ======== Getters & Setters ========
 
     public Long getConsultaId() {
         return consultaId;
@@ -43,6 +44,8 @@ public class ConsultaProcedimentoId implements Serializable {
     public void setProcedimentoId(Long procedimentoId) {
         this.procedimentoId = procedimentoId;
     }
+
+    // ======== equals & hashCode ========
 
     @Override
     public boolean equals(Object o) {

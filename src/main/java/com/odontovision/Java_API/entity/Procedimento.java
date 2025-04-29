@@ -6,11 +6,13 @@ import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "PROCEDIMENTO")
 public class Procedimento {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
@@ -22,27 +24,29 @@ public class Procedimento {
     private String nomeProcedimento;
 
     @Size(max = 255)
-    @Column(name = "DESCRICAO")
+    @Column(name = "DESCRICAO", length = 255)
     private String descricao;
 
     @Column(name = "CUSTO", precision = 10, scale = 2)
     private BigDecimal custo;
 
-    @OneToMany
-    @JoinColumn
+    /** Relação com ConsultaProcedimento (join table) */
+    @OneToMany(mappedBy = "procedimento", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ConsultaProcedimento> consultaProcedimentos = new LinkedHashSet<>();
 
-    @OneToMany
-    @JoinColumn
+    /** Relação com HistoricoTratamento */
+    @OneToMany(mappedBy = "procedimento", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<HistoricoTratamento> historicoTratamentos = new LinkedHashSet<>();
 
-    @OneToMany
-    @JoinColumn
+    /** Relação com PlanoProcedimento (join table) */
+    @OneToMany(mappedBy = "procedimento", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PlanoProcedimento> planoProcedimentos = new LinkedHashSet<>();
 
-    @OneToMany
-    @JoinColumn
-    private Set<com.odontovision.Java_API.entity.Sinistro> sinistros = new LinkedHashSet<>();
+    /** Relação com Sinistro */
+    @OneToMany(mappedBy = "procedimento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Sinistro> sinistros = new LinkedHashSet<>();
+
+    // ======== Getters & Setters ========
 
     public Long getId() {
         return id;
@@ -100,12 +104,26 @@ public class Procedimento {
         this.planoProcedimentos = planoProcedimentos;
     }
 
-    public Set<com.odontovision.Java_API.entity.Sinistro> getSinistros() {
+    public Set<Sinistro> getSinistros() {
         return sinistros;
     }
 
-    public void setSinistros(Set<com.odontovision.Java_API.entity.Sinistro> sinistros) {
+    public void setSinistros(Set<Sinistro> sinistros) {
         this.sinistros = sinistros;
     }
 
+    // equals/hashCode para coleções
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Procedimento)) return false;
+        Procedimento that = (Procedimento) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

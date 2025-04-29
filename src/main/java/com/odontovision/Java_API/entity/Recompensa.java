@@ -13,7 +13,7 @@ import java.util.Set;
 public class Recompensa {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // ✅ Para funcionar liso no Docker e bancos em geral
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 

@@ -9,17 +9,25 @@ import java.time.LocalDate;
 public class ValidacaoChecklist {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Corrigido para IDENTITY
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @NotNull
-    @Column(name = "USUARIO_ID", nullable = false)
-    private Long usuarioId;
+    /**
+     * Antes era apenas Long usuarioId;
+     * Agora mapeado para a entidade Usuario.
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "USUARIO_ID", nullable = false)
+    private Usuario usuario;
 
-    @NotNull
-    @Column(name = "CONSULTA_ID", nullable = false)
-    private Long consultaId;
+    /**
+     * Antes era apenas Long consultaId;
+     * Agora mapeado para a entidade Consulta.
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "CONSULTA_ID", nullable = false)
+    private Consulta consulta;
 
     @Column(name = "DATA_VALIDACAO")
     private LocalDate dataValidacao;
@@ -30,7 +38,7 @@ public class ValidacaoChecklist {
     @Column(name = "PONTOS_BONUS")
     private Long pontosBonus;
 
-    // Getters e Setters
+    // ======== Getters & Setters ========
 
     public Long getId() {
         return id;
@@ -40,20 +48,20 @@ public class ValidacaoChecklist {
         this.id = id;
     }
 
-    public Long getUsuarioId() {
-        return usuarioId;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public Long getConsultaId() {
-        return consultaId;
+    public Consulta getConsulta() {
+        return consulta;
     }
 
-    public void setConsultaId(Long consultaId) {
-        this.consultaId = consultaId;
+    public void setConsulta(Consulta consulta) {
+        this.consulta = consulta;
     }
 
     public LocalDate getDataValidacao() {

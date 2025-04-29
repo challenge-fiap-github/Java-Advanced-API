@@ -3,7 +3,6 @@ package com.odontovision.Java_API.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
@@ -33,17 +32,18 @@ public class PlanoOdontologico {
     @Column(name = "VALIDADE")
     private LocalDate validade;
 
-    @OneToMany
-    @JoinColumn
+    /** Agora o relacionamento está invertido: mappedBy="plano" */
+    @OneToMany(mappedBy = "plano", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PlanoCobertura> planoCoberturas = new LinkedHashSet<>();
 
-    @OneToMany
-    @JoinColumn
-    private Set<com.odontovision.Java_API.entity.PlanoProcedimento> planoProcedimentos = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "plano", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PlanoProcedimento> planoProcedimentos = new LinkedHashSet<>();
 
-    @OneToMany
-    @JoinColumn
-    private Set<com.odontovision.Java_API.entity.UsuarioPlano> usuarioPlanos = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "plano", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UsuarioPlano> usuarioPlanos = new LinkedHashSet<>();
+
+    // ======= Getters e Setters =======
+
     public Long getId() {
         return id;
     }
@@ -92,20 +92,19 @@ public class PlanoOdontologico {
         this.planoCoberturas = planoCoberturas;
     }
 
-    public Set<com.odontovision.Java_API.entity.PlanoProcedimento> getPlanoProcedimentos() {
+    public Set<PlanoProcedimento> getPlanoProcedimentos() {
         return planoProcedimentos;
     }
 
-    public void setPlanoProcedimentos(Set<com.odontovision.Java_API.entity.PlanoProcedimento> planoProcedimentos) {
+    public void setPlanoProcedimentos(Set<PlanoProcedimento> planoProcedimentos) {
         this.planoProcedimentos = planoProcedimentos;
     }
 
-    public Set<com.odontovision.Java_API.entity.UsuarioPlano> getUsuarioPlanos() {
+    public Set<UsuarioPlano> getUsuarioPlanos() {
         return usuarioPlanos;
     }
 
-    public void setUsuarioPlanos(Set<com.odontovision.Java_API.entity.UsuarioPlano> usuarioPlanos) {
+    public void setUsuarioPlanos(Set<UsuarioPlano> usuarioPlanos) {
         this.usuarioPlanos = usuarioPlanos;
     }
-
 }

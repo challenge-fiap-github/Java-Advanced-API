@@ -3,10 +3,10 @@ package com.odontovision.Java_API.mapper;
 import com.odontovision.Java_API.dto.NotificacaoResponseDto;
 import com.odontovision.Java_API.entity.Notificacao;
 
-public class NotificacaoMapper {
+public final class NotificacaoMapper {
 
     private NotificacaoMapper() {
-        // Construtor privado para impedir instanciamento
+        // utilitário estático
     }
 
     public static NotificacaoResponseDto toResponseDto(Notificacao notificacao) {
@@ -18,7 +18,7 @@ public class NotificacaoMapper {
                 notificacao.getTitulo(),
                 notificacao.getConteudo(),
                 notificacao.getDataEnvio(),
-                notificacao.getUsuarioId()
+                notificacao.getUsuario().getId()      // <— aqui pegamos o id do usuário
         );
     }
 }

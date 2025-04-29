@@ -3,7 +3,6 @@ package com.odontovision.Java_API.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
 import java.time.Instant;
 
 @Entity
@@ -29,9 +28,14 @@ public class Notificacao {
     @Column(name = "DATA_ENVIO", nullable = false)
     private Instant dataEnvio;
 
-    @NotNull
-    @Column(name = "USUARIO_ID", nullable = false)
-    private Long usuarioId;
+    /**
+     * Agora mapeamos para a entidade Usuario em vez de usar Long usuarioId.
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "USUARIO_ID", nullable = false)
+    private Usuario usuario;
+
+    // ======== Getters & Setters ========
 
     public Long getId() {
         return id;
@@ -65,12 +69,11 @@ public class Notificacao {
         this.dataEnvio = dataEnvio;
     }
 
-    public Long getUsuarioId() {
-        return usuarioId;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
-
 }

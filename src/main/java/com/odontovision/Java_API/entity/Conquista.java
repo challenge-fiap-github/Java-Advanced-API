@@ -24,7 +24,7 @@ public class Conquista {
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "DESCRICAO", nullable = false)
+    @Column(name = "DESCRICAO", nullable = false, length = 255)
     private String descricao;
 
     @Column(name = "PONTOS_BONUS")
@@ -33,10 +33,19 @@ public class Conquista {
     @Column(name = "DATA_EXPIRACAO")
     private LocalDate dataExpiracao;
 
-    @OneToMany(mappedBy = "conquista")
+    /**
+     * Bidirecional com UsuarioConquista.
+     * Quando uma conquista é removida, todos os registros de usuário-conquista
+     * relacionados serão removidos também.
+     */
+    @OneToMany(
+            mappedBy = "conquista",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private Set<UsuarioConquista> usuarioConquistas = new LinkedHashSet<>();
 
-    // Getters e Setters
+    // ======= Getters & Setters =======
 
     public Long getId() {
         return id;

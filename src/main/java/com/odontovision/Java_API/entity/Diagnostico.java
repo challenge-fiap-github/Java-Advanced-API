@@ -3,7 +3,6 @@ package com.odontovision.Java_API.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
 import java.time.LocalDate;
 
 @Entity
@@ -15,9 +14,12 @@ public class Diagnostico {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @NotNull
-    @Column(name = "CONSULTA_ID", nullable = false)
-    private Long consultaId;
+    /**
+     * Agora navegamos diretamente para a entidade Consulta.
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "CONSULTA_ID", nullable = false)
+    private Consulta consulta;
 
     @Size(max = 255)
     @NotNull
@@ -25,8 +27,10 @@ public class Diagnostico {
     private String descricao;
 
     @NotNull
-    @Column(name = "DATA_DIAGNOSTICO", nullable = false)
+    @Column(name = "DATA", nullable = false)
     private LocalDate data;
+
+    // ======== Getters & Setters ========
 
     public Long getId() {
         return id;
@@ -36,12 +40,12 @@ public class Diagnostico {
         this.id = id;
     }
 
-    public Long getConsultaId() {
-        return consultaId;
+    public Consulta getConsulta() {
+        return consulta;
     }
 
-    public void setConsultaId(Long consultaId) {
-        this.consultaId = consultaId;
+    public void setConsulta(Consulta consulta) {
+        this.consulta = consulta;
     }
 
     public String getDescricao() {
@@ -59,5 +63,4 @@ public class Diagnostico {
     public void setData(LocalDate data) {
         this.data = data;
     }
-
 }

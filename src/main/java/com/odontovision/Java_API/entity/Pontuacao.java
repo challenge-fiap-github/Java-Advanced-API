@@ -7,14 +7,19 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "PONTUACAO")
 public class Pontuacao {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @NotNull
-    @Column(name = "USUARIO_ID", nullable = false)
-    private Long usuarioId;
+    /**
+     * Antes havia apenas usuarioId.
+     * Agora mapeamos para a entidade Usuario.
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "USUARIO_ID", nullable = false)
+    private Usuario usuario;
 
     @NotNull
     @Column(name = "PONTOS", nullable = false)
@@ -30,6 +35,8 @@ public class Pontuacao {
     @Column(name = "CICLO_FINAL")
     private LocalDate cicloFinal;
 
+    // ======== Getters & Setters ========
+
     public Long getId() {
         return id;
     }
@@ -38,12 +45,12 @@ public class Pontuacao {
         this.id = id;
     }
 
-    public Long getUsuarioId() {
-        return usuarioId;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Long getPontos() {
@@ -77,5 +84,4 @@ public class Pontuacao {
     public void setCicloFinal(LocalDate cicloFinal) {
         this.cicloFinal = cicloFinal;
     }
-
 }

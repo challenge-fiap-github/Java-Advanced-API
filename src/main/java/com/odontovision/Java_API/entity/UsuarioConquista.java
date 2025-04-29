@@ -10,10 +10,20 @@ public class UsuarioConquista {
     @EmbeddedId
     private UsuarioConquistaId id;
 
+    @MapsId("usuarioId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "USUARIO_ID", nullable = false)
+    private Usuario usuario;
+
+    @MapsId("conquistaId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "CONQUISTA_ID", nullable = false)
+    private Conquista conquista;
+
     @Column(name = "DATA_OBTENCAO")
     private LocalDate dataObtencao;
 
-    // GETTERS E SETTERS
+    // Getters & setters
 
     public UsuarioConquistaId getId() {
         return id;
@@ -21,6 +31,22 @@ public class UsuarioConquista {
 
     public void setId(UsuarioConquistaId id) {
         this.id = id;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Conquista getConquista() {
+        return conquista;
+    }
+
+    public void setConquista(Conquista conquista) {
+        this.conquista = conquista;
     }
 
     public LocalDate getDataObtencao() {

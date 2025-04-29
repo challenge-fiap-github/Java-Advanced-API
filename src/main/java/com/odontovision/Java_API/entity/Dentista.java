@@ -3,7 +3,6 @@ package com.odontovision.Java_API.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -42,14 +41,16 @@ public class Dentista {
     @Column(name = "EMAIL", nullable = false, length = 100)
     private String email;
 
-    @OneToMany
+    @OneToMany(mappedBy = "dentista", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Consulta> consultas = new LinkedHashSet<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "dentista", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<EnderecoClinica> enderecoClinicas = new LinkedHashSet<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "dentista", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<HistoricoTratamento> historicoTratamentos = new LinkedHashSet<>();
+
+    // ======== Getters & Setters ========
 
     public Long getId() {
         return id;
@@ -107,20 +108,19 @@ public class Dentista {
         this.consultas = consultas;
     }
 
-    public Set<com.odontovision.Java_API.entity.EnderecoClinica> getEnderecoClinicas() {
+    public Set<EnderecoClinica> getEnderecoClinicas() {
         return enderecoClinicas;
     }
 
-    public void setEnderecoClinicas(Set<com.odontovision.Java_API.entity.EnderecoClinica> enderecoClinicas) {
+    public void setEnderecoClinicas(Set<EnderecoClinica> enderecoClinicas) {
         this.enderecoClinicas = enderecoClinicas;
     }
 
-    public Set<com.odontovision.Java_API.entity.HistoricoTratamento> getHistoricoTratamentos() {
+    public Set<HistoricoTratamento> getHistoricoTratamentos() {
         return historicoTratamentos;
     }
 
-    public void setHistoricoTratamentos(Set<com.odontovision.Java_API.entity.HistoricoTratamento> historicoTratamentos) {
+    public void setHistoricoTratamentos(Set<HistoricoTratamento> historicoTratamentos) {
         this.historicoTratamentos = historicoTratamentos;
     }
-
 }

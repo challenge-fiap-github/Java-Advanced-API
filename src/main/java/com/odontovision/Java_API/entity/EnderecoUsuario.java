@@ -1,9 +1,11 @@
 package com.odontovision.Java_API.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+/**
+ * Agora mapeado corretamente para Usuario em vez de usar apenas o ID.
+ */
 @Entity
 @Table(name = "ENDERECO_USUARIO")
 public class EnderecoUsuario {
@@ -13,9 +15,12 @@ public class EnderecoUsuario {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @NotNull
-    @Column(name = "USUARIO_ID", nullable = false)
-    private Long usuarioId;
+    /**
+     * Relação Many-to-One com Usuario
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "USUARIO_ID", nullable = false)
+    private Usuario usuario;
 
     @Size(max = 150)
     @Column(name = "LOGRADOURO", length = 150)
@@ -41,6 +46,8 @@ public class EnderecoUsuario {
     @Column(name = "COMPLEMENTO", length = 100)
     private String complemento;
 
+    // ======== Getters & Setters ========
+
     public Long getId() {
         return id;
     }
@@ -49,12 +56,12 @@ public class EnderecoUsuario {
         this.id = id;
     }
 
-    public Long getUsuarioId() {
-        return usuarioId;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public String getLogradouro() {
@@ -104,5 +111,4 @@ public class EnderecoUsuario {
     public void setComplemento(String complemento) {
         this.complemento = complemento;
     }
-
 }

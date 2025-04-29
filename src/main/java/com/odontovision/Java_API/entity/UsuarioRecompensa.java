@@ -2,7 +2,6 @@ package com.odontovision.Java_API.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-
 import java.time.LocalDate;
 
 @Entity
@@ -14,18 +13,25 @@ public class UsuarioRecompensa {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @NotNull
-    @Column(name = "USUARIO_ID", nullable = false)
-    private Long usuarioId;
+    /**
+     * Agora mapeado para a entidade Usuario.
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "USUARIO_ID", nullable = false)
+    private Usuario usuario;
 
-    @ManyToOne(fetch = FetchType.LAZY) // Relação forte e eficiente
+    /**
+     * Mapeamento já existente para Recompensa.
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "RECOMPENSA_ID", nullable = false)
     private Recompensa recompensa;
 
     @Column(name = "DATA_RESGATE")
     private LocalDate dataResgate;
 
-    // Getters e Setters
+    // ======== Getters & Setters ========
+
     public Long getId() {
         return id;
     }
@@ -34,12 +40,12 @@ public class UsuarioRecompensa {
         this.id = id;
     }
 
-    public Long getUsuarioId() {
-        return usuarioId;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Recompensa getRecompensa() {

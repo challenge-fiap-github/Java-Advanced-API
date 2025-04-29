@@ -15,7 +15,7 @@ public class UsuarioConquistaId implements Serializable {
     @Column(name = "CONQUISTA_ID", nullable = false)
     private Long conquistaId;
 
-    // GETTERS E SETTERS
+    // Getters & setters
 
     public Long getUsuarioId() {
         return usuarioId;
@@ -38,7 +38,7 @@ public class UsuarioConquistaId implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof UsuarioConquistaId)) return false;
         UsuarioConquistaId that = (UsuarioConquistaId) o;
         return Objects.equals(usuarioId, that.usuarioId) &&
                 Objects.equals(conquistaId, that.conquistaId);

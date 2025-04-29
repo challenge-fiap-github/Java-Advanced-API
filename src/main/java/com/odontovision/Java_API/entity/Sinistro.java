@@ -2,7 +2,6 @@ package com.odontovision.Java_API.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-
 import java.time.LocalDate;
 
 @Entity
@@ -14,11 +13,21 @@ public class Sinistro {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Column(name = "PACIENTE_ID")
-    private Long pacienteId;
+    /**
+     * Antes era pacienteId.
+     * Agora mapeamos para a entidade Usuario (o paciente).
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "PACIENTE_ID", nullable = false)
+    private Usuario paciente;
 
-    @Column(name = "PROCEDIMENTO_ID")
-    private Long procedimentoId;
+    /**
+     * Antes era procedimentoId.
+     * Agora mapeamos para a entidade Procedimento.
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "PROCEDIMENTO_ID", nullable = false)
+    private Procedimento procedimento;
 
     @Column(name = "DATA_SINISTRO")
     private LocalDate dataSinistro;
@@ -27,10 +36,10 @@ public class Sinistro {
     private Boolean riscoFraude;
 
     @Size(max = 255)
-    @Column(name = "DESCRICAO_RISCO")
+    @Column(name = "DESCRICAO_RISCO", length = 255)
     private String descricaoRisco;
 
-    // Getters e Setters
+    // ======== Getters & Setters ========
 
     public Long getId() {
         return id;
@@ -40,20 +49,20 @@ public class Sinistro {
         this.id = id;
     }
 
-    public Long getPacienteId() {
-        return pacienteId;
+    public Usuario getPaciente() {
+        return paciente;
     }
 
-    public void setPacienteId(Long pacienteId) {
-        this.pacienteId = pacienteId;
+    public void setPaciente(Usuario paciente) {
+        this.paciente = paciente;
     }
 
-    public Long getProcedimentoId() {
-        return procedimentoId;
+    public Procedimento getProcedimento() {
+        return procedimento;
     }
 
-    public void setProcedimentoId(Long procedimentoId) {
-        this.procedimentoId = procedimentoId;
+    public void setProcedimento(Procedimento procedimento) {
+        this.procedimento = procedimento;
     }
 
     public LocalDate getDataSinistro() {

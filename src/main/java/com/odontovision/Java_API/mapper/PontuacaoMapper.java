@@ -13,9 +13,14 @@ public class PontuacaoMapper {
         if (pontuacao == null) {
             return null;
         }
+        // extrai o id do usuário a partir da entidade associada
+        Long usuarioId = pontuacao.getUsuario() != null
+                ? pontuacao.getUsuario().getId()
+                : null;
+
         return new PontuacaoResponseDto(
                 pontuacao.getId(),
-                pontuacao.getUsuarioId(),
+                usuarioId,
                 pontuacao.getPontos(),
                 pontuacao.getDataRegistro(),
                 pontuacao.getCicloInicial(),

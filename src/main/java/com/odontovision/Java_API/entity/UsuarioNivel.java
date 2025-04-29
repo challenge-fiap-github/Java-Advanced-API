@@ -1,14 +1,25 @@
 package com.odontovision.Java_API.entity;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "USUARIO_NIVEL", schema = "RM553568")
-public class UsuarioNivel {
+@Table(name = "USUARIO_NIVEL")
+public class UsuarioNivel implements Serializable {
 
     @EmbeddedId
     private UsuarioNivelId id;
+
+    @MapsId("usuarioId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "USUARIO_ID", nullable = false)
+    private Usuario usuario;
+
+    @MapsId("nivelId")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "NIVEL_ID", nullable = false)
+    private Nivel nivel;
 
     @Column(name = "PONTOS_ATUAIS", nullable = false)
     private Long pontosAtuais;
@@ -16,7 +27,7 @@ public class UsuarioNivel {
     @Column(name = "DATA_ULTIMA_ATUALIZACAO")
     private LocalDate dataUltimaAtualizacao;
 
-    // GETTERS E SETTERS
+    // ====== Getters & Setters ======
 
     public UsuarioNivelId getId() {
         return id;
@@ -24,6 +35,22 @@ public class UsuarioNivel {
 
     public void setId(UsuarioNivelId id) {
         this.id = id;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Nivel getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(Nivel nivel) {
+        this.nivel = nivel;
     }
 
     public Long getPontosAtuais() {

@@ -3,15 +3,13 @@ package com.odontovision.Java_API.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.Hibernate;
-
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
 public class PlanoProcedimentoId implements Serializable {
 
-    private static final long serialVersionUID = 8405514640727551471L;
+    private static final long serialVersionUID = 1L;
 
     @NotNull
     @Column(name = "PLANO_ID", nullable = false)
@@ -20,6 +18,14 @@ public class PlanoProcedimentoId implements Serializable {
     @NotNull
     @Column(name = "PROCEDIMENTO_ID", nullable = false)
     private Long procedimentoId;
+
+    // Construtor padrão obrigatório
+    public PlanoProcedimentoId() {}
+
+    public PlanoProcedimentoId(Long planoId, Long procedimentoId) {
+        this.planoId = planoId;
+        this.procedimentoId = procedimentoId;
+    }
 
     public Long getPlanoId() {
         return planoId;
@@ -40,7 +46,7 @@ public class PlanoProcedimentoId implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (!(o instanceof PlanoProcedimentoId)) return false;
         PlanoProcedimentoId that = (PlanoProcedimentoId) o;
         return Objects.equals(planoId, that.planoId) &&
                 Objects.equals(procedimentoId, that.procedimentoId);

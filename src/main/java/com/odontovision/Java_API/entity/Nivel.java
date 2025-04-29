@@ -25,9 +25,14 @@ public class Nivel {
     @Column(name = "PONTOS_NECESSARIOS", nullable = false)
     private Long pontosNecessarios;
 
-    @OneToMany
-    @JoinColumn
-    private Set<com.odontovision.Java_API.entity.UsuarioNivel> usuarioNivels = new LinkedHashSet<>();
+    /**
+     * Mapeamento bidirecional para UsuarioNivel.
+     * "nivel" deve ser o nome do campo em UsuarioNivel que referencia esta entidade.
+     */
+    @OneToMany(mappedBy = "nivel", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<com.odontovision.Java_API.entity.UsuarioNivel> usuarioNiveis = new LinkedHashSet<>();
+
+    // ======== Getters & Setters ========
 
     public Long getId() {
         return id;
@@ -53,12 +58,11 @@ public class Nivel {
         this.pontosNecessarios = pontosNecessarios;
     }
 
-    public Set<com.odontovision.Java_API.entity.UsuarioNivel> getUsuarioNivels() {
-        return usuarioNivels;
+    public Set<com.odontovision.Java_API.entity.UsuarioNivel> getUsuarioNiveis() {
+        return usuarioNiveis;
     }
 
-    public void setUsuarioNivels(Set<com.odontovision.Java_API.entity.UsuarioNivel> usuarioNivels) {
-        this.usuarioNivels = usuarioNivels;
+    public void setUsuarioNiveis(Set<com.odontovision.Java_API.entity.UsuarioNivel> usuarioNiveis) {
+        this.usuarioNiveis = usuarioNiveis;
     }
-
 }
