@@ -1,5 +1,6 @@
 package com.odontovision.Java_API.entity;
 
+import com.odontovision.Java_API.converter.BooleanToCharConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
@@ -32,7 +33,8 @@ public class Sinistro {
     @Column(name = "DATA_SINISTRO")
     private LocalDate dataSinistro;
 
-    @Column(name = "RISCO_FRAUDE")
+    @Column(name = "RISCO_FRAUDE", length = 1, columnDefinition = "CHAR(1)")
+    @Convert(converter = BooleanToCharConverter.class)
     private Boolean riscoFraude;
 
     @Size(max = 255)

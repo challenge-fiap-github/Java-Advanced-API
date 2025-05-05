@@ -1,5 +1,6 @@
 package com.odontovision.Java_API.entity;
 
+import com.odontovision.Java_API.converter.BooleanToCharConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -25,10 +26,12 @@ public class ChecklistDiario {
     @Column(name = "DATA", nullable = false)
     private LocalDate data;
 
-    @Column(name = "ESCOVACAO")
+    @Column(name = "ESCOVACAO", nullable = false, length = 1, columnDefinition = "CHAR(1)")
+    @Convert(converter = BooleanToCharConverter.class)
     private Boolean escovacao;
 
-    @Column(name = "FIO_DENTAL")
+    @Column(name = "FIO_DENTAL", length = 1, columnDefinition = "CHAR(1)")
+    @Convert(converter = BooleanToCharConverter.class)
     private Boolean fioDental;
 
     /**

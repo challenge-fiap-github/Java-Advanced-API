@@ -1,5 +1,6 @@
 package com.odontovision.Java_API.entity;
 
+import com.odontovision.Java_API.converter.BooleanToCharConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -32,7 +33,8 @@ public class ValidacaoChecklist {
     @Column(name = "DATA_VALIDACAO")
     private LocalDate dataValidacao;
 
-    @Column(name = "STATUS_VALIDACAO")
+    @Column(name = "STATUS_VALIDACAO", length = 1, columnDefinition = "CHAR(1)")
+    @Convert(converter = BooleanToCharConverter.class)
     private Boolean statusValidacao;
 
     @Column(name = "PONTOS_BONUS")
