@@ -114,4 +114,12 @@ public class ConsultaServiceImpl implements ConsultaService {
                 .map(ConsultaMapper::toResponseDto)
                 .collect(Collectors.toList());
     }
+
+
+    @Override
+    public Consulta buscarEntidadePorId(Long id) {
+        return consultaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Consulta não encontrada com ID: " + id));
+    }
+
 }

@@ -1,9 +1,6 @@
 package com.odontovision.Java_API.controller;
 
 import com.odontovision.Java_API.dto.EnderecoClinicaDto;
-import com.odontovision.Java_API.entity.EnderecoClinica;
-import com.odontovision.Java_API.entity.Dentista;
-import com.odontovision.Java_API.mapper.EnderecoClinicaMapper;
 import com.odontovision.Java_API.service.EnderecoClinicaService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -11,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.net.URI;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
@@ -21,18 +19,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 public class EnderecoClinicaController {
 
     private final EnderecoClinicaService service;
-    private final EnderecoClinicaMapper mapper;
 
-    public EnderecoClinicaController(EnderecoClinicaService service,
-                                     EnderecoClinicaMapper mapper) {
+    public EnderecoClinicaController(EnderecoClinicaService service) {
         this.service = service;
-        this.mapper = mapper;
     }
 
     @GetMapping
     public CollectionModel<EntityModel<EnderecoClinicaDto>> listar() {
         var recursos = service.listarTodos().stream()
-                .map(mapper::toDto)
                 .map(dto -> EntityModel.of(dto,
                         linkTo(methodOn(EnderecoClinicaController.class).buscar(dto.id())).withSelfRel(),
                         linkTo(methodOn(EnderecoClinicaController.class).listar()).withRel("enderecos-clinica")
@@ -46,9 +40,8 @@ public class EnderecoClinicaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<EntityModel<EnderecoClinicaDto>> buscar(@PathVariable Long id) {
-        EnderecoClinica e = service.buscarPorId(id);
-        EnderecoClinicaDto dto = mapper.toDto(e);
-        EntityModel<EnderecoClinicaDto> resource = EntityModel.of(dto,
+        var dto = service.buscarPorId(id);
+        var resource = EntityModel.of(dto,
                 linkTo(methodOn(EnderecoClinicaController.class).buscar(id)).withSelfRel(),
                 linkTo(methodOn(EnderecoClinicaController.class).listar()).withRel("enderecos-clinica")
         );
@@ -57,19 +50,13 @@ public class EnderecoClinicaController {
 
     @PostMapping
     public ResponseEntity<EntityModel<EnderecoClinicaDto>> criar(
-            @RequestBody @Validated EnderecoClinicaDto request
+            @RequestBody @Valid EnderecoClinicaDto dto
     ) {
-        // resolve o dentista associado
-        Dentista d = service.lookupDentista(request.dentistaId());
-        EnderecoClinica toCreate = mapper.toEntity(request, d);
-        EnderecoClinica created = service.criar(toCreate);
-        EnderecoClinicaDto dto = mapper.toDto(created);
-
-        EntityModel<EnderecoClinicaDto> resource = EntityModel.of(dto,
-                linkTo(methodOn(EnderecoClinicaController.class).buscar(dto.id())).withSelfRel(),
+        var criado = service.criar(dto);
+        var resource = EntityModel.of(criado,
+                linkTo(methodOn(EnderecoClinicaController.class).buscar(criado.id())).withSelfRel(),
                 linkTo(methodOn(EnderecoClinicaController.class).listar()).withRel("enderecos-clinica")
         );
-
         return ResponseEntity
                 .created(URI.create(resource.getRequiredLink("self").getHref()))
                 .body(resource);
@@ -78,22 +65,12 @@ public class EnderecoClinicaController {
     @PutMapping("/{id}")
     public EntityModel<EnderecoClinicaDto> atualizar(
             @PathVariable Long id,
-            @RequestBody @Validated EnderecoClinicaDto request
+            @RequestBody @Valid EnderecoClinicaDto dto
     ) {
-        Dentista d = service.lookupDentista(request.dentistaId());
-        EnderecoClinica toUpdate = mapper.toEntity(request, d);
-        EnderecoClinica updated = service.atualizar(id, toUpdate);
-        EnderecoClinicaDto dto = mapper.toDto(updated);
-
-        return EntityModel.of(dto,
+        var atualizado = service.atualizar(id, dto);
+        return EntityModel.of(atualizado,
                 linkTo(methodOn(EnderecoClinicaController.class).buscar(id)).withSelfRel(),
                 linkTo(methodOn(EnderecoClinicaController.class).listar()).withRel("enderecos-clinica")
         );
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Long id) {
-        service.excluir(id);
-        return ResponseEntity.noContent().build();
     }
 }

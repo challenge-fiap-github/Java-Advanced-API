@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -64,9 +65,6 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Pontuacao> pontuacoes = new LinkedHashSet<>();
 
-    /**
-     * Aqui estava mappedBy="usuario" mas em Sinistro o campo se chama "paciente".
-     */
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Sinistro> sinistros = new LinkedHashSet<>();
 

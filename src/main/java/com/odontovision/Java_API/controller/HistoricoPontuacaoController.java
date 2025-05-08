@@ -38,17 +38,4 @@ public class HistoricoPontuacaoController {
                 .body(criado);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<HistoricoPontuacaoDto> atualizar(
-            @PathVariable Long id,
-            @RequestBody @Valid HistoricoPontuacaoDto dto) {
-
-        return ResponseEntity.ok(service.atualizar(id, dto));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Long id) {
-        service.excluir(id);
-        return ResponseEntity.noContent().build();
-    }
 }
