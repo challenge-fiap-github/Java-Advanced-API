@@ -8,7 +8,6 @@ import com.odontovision.Java_API.entity.Usuario;
 import com.odontovision.Java_API.exception.DentistaNotFoundException;
 import com.odontovision.Java_API.exception.HistoricoTratamentoNotFoundException;
 import com.odontovision.Java_API.exception.ProcedimentoNotFoundException;
-import com.odontovision.Java_API.exception.UsuarioNotFoundException;
 import com.odontovision.Java_API.mapper.HistoricoTratamentoMapper;
 import com.odontovision.Java_API.repository.DentistaRepository;
 import com.odontovision.Java_API.repository.HistoricoTratamentoRepository;
@@ -56,15 +55,16 @@ public class HistoricoTratamentoServiceImpl implements HistoricoTratamentoServic
 
     @Override
     public HistoricoTratamentoDto criar(HistoricoTratamentoDto dto) {
-        // busca as entidades relacionadas
-        Usuario usuario = usuarioService.buscarEntidadePorId(dto.usuarioId())
-                .orElseThrow(() -> new UsuarioNotFoundException(dto.usuarioId()));
+        // busca o usuário (lança UsuarioNotFoundException caso não exista)
+        Usuario usuario = usuarioService.buscarEntidadePorId(dto.usuarioId());
+        // busca o procedimento (lança ProcedimentoNotFoundException caso não exista)
         Procedimento procedimento = procedimentoRepo.findById(dto.procedimentoId())
                 .orElseThrow(() -> new ProcedimentoNotFoundException(dto.procedimentoId()));
+        // busca o dentista (lança DentistaNotFoundException caso não exista)
         Dentista dentista = dentistaRepo.findById(dto.dentistaId())
                 .orElseThrow(() -> new DentistaNotFoundException(dto.dentistaId()));
 
-        // converte e persiste
+        // converte DTO → entidade, salva e retorna DTO
         HistoricoTratamento entidade = HistoricoTratamentoMapper.toEntity(dto, usuario, procedimento, dentista);
         HistoricoTratamento salvo = repo.save(entidade);
         return HistoricoTratamentoMapper.toDto(salvo);
@@ -75,8 +75,7 @@ public class HistoricoTratamentoServiceImpl implements HistoricoTratamentoServic
         HistoricoTratamento existente = repo.findById(id)
                 .orElseThrow(() -> new HistoricoTratamentoNotFoundException(id));
 
-        Usuario usuario = usuarioService.buscarEntidadePorId(dto.usuarioId())
-                .orElseThrow(() -> new UsuarioNotFoundException(dto.usuarioId()));
+        Usuario usuario = usuarioService.buscarEntidadePorId(dto.usuarioId());
         Procedimento procedimento = procedimentoRepo.findById(dto.procedimentoId())
                 .orElseThrow(() -> new ProcedimentoNotFoundException(dto.procedimentoId()));
         Dentista dentista = dentistaRepo.findById(dto.dentistaId())
@@ -94,6 +93,7 @@ public class HistoricoTratamentoServiceImpl implements HistoricoTratamentoServic
 
     @Override
     public void deletar(Long id) {
+        // dispara HistoricoTratamentoNotFoundException se não existir
         repo.findById(id)
                 .orElseThrow(() -> new HistoricoTratamentoNotFoundException(id));
         repo.deleteById(id);

@@ -12,6 +12,15 @@ public class UsuarioNivelId implements Serializable {
     @Column(name = "NIVEL_ID", nullable = false)
     private Long nivelId;
 
+    // Construtor padrão obrigatório pelo JPA
+    public UsuarioNivelId() {}
+
+    // Construtor de conveniência que faltava
+    public UsuarioNivelId(Long usuarioId, Long nivelId) {
+        this.usuarioId = usuarioId;
+        this.nivelId = nivelId;
+    }
+
     // ====== Getters & Setters ======
 
     public Long getUsuarioId() {

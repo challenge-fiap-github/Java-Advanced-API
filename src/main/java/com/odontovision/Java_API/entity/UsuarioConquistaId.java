@@ -15,6 +15,13 @@ public class UsuarioConquistaId implements Serializable {
     @Column(name = "CONQUISTA_ID", nullable = false)
     private Long conquistaId;
 
+    public UsuarioConquistaId() {}
+
+    public UsuarioConquistaId(Long usuarioId, Long conquistaId) {
+        this.usuarioId = usuarioId;
+        this.conquistaId = conquistaId;
+    }
+
     // Getters & setters
 
     public Long getUsuarioId() {
