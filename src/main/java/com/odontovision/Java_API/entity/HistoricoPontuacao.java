@@ -46,7 +46,7 @@ public class HistoricoPontuacao {
 
     // === Construtor padrão (JPA) ===
 
-    protected HistoricoPontuacao() {}
+    public HistoricoPontuacao() {}
 
     // === Getters & Setters ===
 

@@ -1,105 +1,49 @@
 package com.odontovision.Java_API.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.time.Instant;
+import java.util.Objects;
 
-/**
- * Registra operações de INSERT/UPDATE/DELETE nas tabelas do sistema.
- */
 @Entity
 @Table(name = "AUDITORIA")
 public class Auditoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", nullable = false)
     private Long id;
 
-    @NotNull
-    @Size(max = 50)
-    @Column(name = "TABELA_AFETADA", nullable = false, length = 50)
-    private String tabelaAfetada;
+    @Column(name = "ENTIDADE", nullable = false, length = 100)
+    private String entidade;
 
-    @NotNull
-    @Size(max = 10)
-    @Column(name = "TIPO_OPERACAO", nullable = false, length = 10)
-    private String tipoOperacao;
+    @Column(name = "ACAO", nullable = false, length = 50)
+    private String acao;
 
-    /**
-     * Se quiser navegar até o usuário que fez a alteração,
-     * substitua por @ManyToOne para Usuario.
-     */
-    @Column(name = "USUARIO_ID")
-    private Long usuarioId;
+    @Column(name = "TIMESTAMP", nullable = false)
+    private Instant timestamp;
 
-    @NotNull
-    @Column(name = "DATA_OPERACAO", nullable = false, updatable = false)
-    private Instant dataOperacao;
+    @Column(name = "DETALHES", length = 500)
+    private String detalhes;
 
-    @Lob
-    @Column(name = "VALORES_ANTIGOS")
-    private String valoresAntigos;
-
-    @Lob
-    @Column(name = "VALORES_NOVOS")
-    private String valoresNovos;
-
-    @PrePersist
-    protected void onCreate() {
-        this.dataOperacao = Instant.now();
+    protected Auditoria() {
+        // JPA
     }
 
-    // ======== Getters & Setters ========
-
-    public Long getId() {
-        return id;
+    public Auditoria(String entidade, String acao, String detalhes) {
+        this.entidade = Objects.requireNonNull(entidade);
+        this.acao = Objects.requireNonNull(acao);
+        this.detalhes = detalhes;
+        this.timestamp = Instant.now();
     }
 
-    public String getTabelaAfetada() {
-        return tabelaAfetada;
+    // comportamento de exemplo: atualizar detalhes
+    public void atualizarDetalhes(String novosDetalhes) {
+        this.detalhes = novosDetalhes;
     }
 
-    public void setTabelaAfetada(String tabelaAfetada) {
-        this.tabelaAfetada = tabelaAfetada;
-    }
-
-    public String getTipoOperacao() {
-        return tipoOperacao;
-    }
-
-    public void setTipoOperacao(String tipoOperacao) {
-        this.tipoOperacao = tipoOperacao;
-    }
-
-    public Long getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
-    }
-
-    public Instant getDataOperacao() {
-        return dataOperacao;
-    }
-
-    // dataOperacao é somente leitura após inserção
-
-    public String getValoresAntigos() {
-        return valoresAntigos;
-    }
-
-    public void setValoresAntigos(String valoresAntigos) {
-        this.valoresAntigos = valoresAntigos;
-    }
-
-    public String getValoresNovos() {
-        return valoresNovos;
-    }
-
-    public void setValoresNovos(String valoresNovos) {
-        this.valoresNovos = valoresNovos;
-    }
+    // getters (somente)
+    public Long getId() { return id; }
+    public String getEntidade() { return entidade; }
+    public String getAcao() { return acao; }
+    public Instant getTimestamp() { return timestamp; }
+    public String getDetalhes() { return detalhes; }
 }

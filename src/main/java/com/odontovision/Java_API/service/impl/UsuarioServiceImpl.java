@@ -3,7 +3,7 @@ package com.odontovision.Java_API.service.impl;
 import com.odontovision.Java_API.dto.UsuarioRequestDTO;
 import com.odontovision.Java_API.dto.UsuarioResponseDto;
 import com.odontovision.Java_API.entity.Usuario;
-import com.odontovision.Java_API.exception.ResourceNotFoundException;
+import com.odontovision.Java_API.exception.UsuarioNotFoundException;
 import com.odontovision.Java_API.mapper.UsuarioMapper;
 import com.odontovision.Java_API.repository.UsuarioRepository;
 import com.odontovision.Java_API.service.UsuarioService;
@@ -32,31 +32,31 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public UsuarioResponseDto atualizarUsuario(Long id, UsuarioRequestDTO usuarioRequestDTO) {
-        Usuario usuarioExistente = usuarioRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com ID: " + id));
+        Usuario existente = usuarioRepository.findById(id)
+                .orElseThrow(() -> new UsuarioNotFoundException(id));
 
-        usuarioExistente.setNome(usuarioRequestDTO.getNome());
-        usuarioExistente.setEmail(usuarioRequestDTO.getEmail());
-        usuarioExistente.setSenha(usuarioRequestDTO.getSenha());
-        usuarioExistente.setDataNascimento(usuarioRequestDTO.getDataNascimento());
-        usuarioExistente.setCpf(usuarioRequestDTO.getCpf());
-        usuarioExistente.setTelefone(usuarioRequestDTO.getTelefone());
+        existente.setNome(usuarioRequestDTO.getNome());
+        existente.setEmail(usuarioRequestDTO.getEmail());
+        existente.setSenha(usuarioRequestDTO.getSenha());
+        existente.setDataNascimento(usuarioRequestDTO.getDataNascimento());
+        existente.setCpf(usuarioRequestDTO.getCpf());
+        existente.setTelefone(usuarioRequestDTO.getTelefone());
 
-        Usuario atualizado = usuarioRepository.save(usuarioExistente);
+        Usuario atualizado = usuarioRepository.save(existente);
         return UsuarioMapper.toResponseDto(atualizado);
     }
 
     @Override
     public void deletarUsuario(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com ID: " + id));
+                .orElseThrow(() -> new UsuarioNotFoundException(id));
         usuarioRepository.delete(usuario);
     }
 
     @Override
     public UsuarioResponseDto buscarPorId(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com ID: " + id));
+                .orElseThrow(() -> new UsuarioNotFoundException(id));
         return UsuarioMapper.toResponseDto(usuario);
     }
 
@@ -66,5 +66,11 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .stream()
                 .map(UsuarioMapper::toResponseDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Usuario buscarEntidadePorId(Long id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new UsuarioNotFoundException(id));
     }
 }
