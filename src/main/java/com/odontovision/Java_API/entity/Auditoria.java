@@ -12,38 +12,48 @@ public class Auditoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "ENTIDADE", nullable = false, length = 100)
-    private String entidade;
+    @Column(name = "TABELA_AFETADA", nullable = false, length = 50)
+    private String tabelaAfetada;
 
-    @Column(name = "ACAO", nullable = false, length = 50)
-    private String acao;
+    @Column(name = "TIPO_OPERACAO", nullable = false, length = 10)
+    private String tipoOperacao;
 
-    @Column(name = "TIMESTAMP", nullable = false)
-    private Instant timestamp;
+    @Column(name = "USUARIO_ID")
+    private Long usuarioId;
 
-    @Column(name = "DETALHES", length = 500)
-    private String detalhes;
+    @Column(name = "DATA_OPERACAO", nullable = false)
+    private Instant dataOperacao;
+
+    @Lob
+    @Column(name = "VALORES_ANTIGOS")
+    private String valoresAntigos;
+
+    @Lob
+    @Column(name = "VALORES_NOVOS")
+    private String valoresNovos;
 
     protected Auditoria() {
         // JPA
     }
 
-    public Auditoria(String entidade, String acao, String detalhes) {
-        this.entidade = Objects.requireNonNull(entidade);
-        this.acao = Objects.requireNonNull(acao);
-        this.detalhes = detalhes;
-        this.timestamp = Instant.now();
+    public Auditoria(String tabelaAfetada,
+                     String tipoOperacao,
+                     Long usuarioId,
+                     String valoresAntigos,
+                     String valoresNovos) {
+        this.tabelaAfetada  = Objects.requireNonNull(tabelaAfetada);
+        this.tipoOperacao   = Objects.requireNonNull(tipoOperacao);
+        this.usuarioId      = usuarioId;
+        this.valoresAntigos = valoresAntigos;
+        this.valoresNovos   = valoresNovos;
+        this.dataOperacao   = Instant.now();
     }
 
-    // comportamento de exemplo: atualizar detalhes
-    public void atualizarDetalhes(String novosDetalhes) {
-        this.detalhes = novosDetalhes;
-    }
-
-    // getters (somente)
-    public Long getId() { return id; }
-    public String getEntidade() { return entidade; }
-    public String getAcao() { return acao; }
-    public Instant getTimestamp() { return timestamp; }
-    public String getDetalhes() { return detalhes; }
+    public Long    getId()             { return id; }
+    public String  getTabelaAfetada()  { return tabelaAfetada; }
+    public String  getTipoOperacao()   { return tipoOperacao; }
+    public Long    getUsuarioId()      { return usuarioId; }
+    public Instant getDataOperacao()   { return dataOperacao; }
+    public String  getValoresAntigos() { return valoresAntigos; }
+    public String  getValoresNovos()   { return valoresNovos; }
 }

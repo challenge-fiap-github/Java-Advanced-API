@@ -11,22 +11,23 @@ public class AuditoriaMapper {
         if (a == null) return null;
         return new AuditoriaDto(
                 a.getId(),
-                a.getEntidade(),
-                a.getAcao(),
-                null,
-                a.getTimestamp(),
-                 null,
-                null
+                a.getTabelaAfetada(),
+                a.getTipoOperacao(),
+                a.getUsuarioId(),
+                a.getDataOperacao(),
+                a.getValoresAntigos(),
+                a.getValoresNovos()
         );
     }
 
     public Auditoria toEntity(AuditoriaDto dto) {
         if (dto == null) return null;
-        Auditoria a = new Auditoria(
+        return new Auditoria(
                 dto.tabelaAfetada(),
                 dto.tipoOperacao(),
-                dto.valoresAntigos() + " -> " + dto.valoresNovos()
+                dto.usuarioId(),
+                dto.valoresAntigos(),
+                dto.valoresNovos()
         );
-        return a;
     }
 }
