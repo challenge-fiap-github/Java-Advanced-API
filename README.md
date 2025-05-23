@@ -2,6 +2,8 @@
 
 API RESTful desenvolvida em **Java Spring Boot** para gestão de **gamificação odontológica**, permitindo o controle de **usuários, planos odontológicos, consultas, diagnósticos, pontuações, conquistas, recompensas** e mais.
 
+#### link do vídeo: https://youtu.be/zl-xSMVa724
+
 ---
 ## 👥 Equipe Integrantes
 
@@ -22,6 +24,7 @@ API RESTful desenvolvida em **Java Spring Boot** para gestão de **gamificação
 - OpenAPI 3.0 (Swagger)
 - Banco de Dados: compatível com Oracle
 - Maven
+- Rabbitmq
 
 ---
 
